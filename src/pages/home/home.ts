@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ListQuestionsPage } from '../list-questions/list-questions';
+import { FirestoreDataService } from '../../app/services/firebase.service';
 
 @Component({
   selector: 'page-home',
@@ -10,7 +11,7 @@ export class HomePage {
 
   categories: Array<{id: number, name: string, icon: string}>;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private firebaseService: FirestoreDataService) {
   
     this.categories = [
       { id: 1, name: 'Những Câu Hay Trả Lời Sai', icon: 'md-close-circle' },

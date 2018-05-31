@@ -9,6 +9,10 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ListQuestionsPage } from '../pages/list-questions/list-questions';
+import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
+import { FirebaseConfig } from './firebase.config';
+import { AngularFireModule } from 'angularfire2';
+import { FirestoreDataService } from './services/firebase.service';
 
 @NgModule({
   declarations: [
@@ -20,6 +24,8 @@ import { ListQuestionsPage } from '../pages/list-questions/list-questions';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(FirebaseConfig.firebase),
+    AngularFirestoreModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -29,6 +35,7 @@ import { ListQuestionsPage } from '../pages/list-questions/list-questions';
     ListQuestionsPage
   ],
   providers: [
+    FirestoreDataService,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
