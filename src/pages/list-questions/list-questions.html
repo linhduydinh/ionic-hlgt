@@ -15,6 +15,20 @@
 
 <ion-content padding>
 
+    <ion-slides #slides pager paginationType="fraction">
+
+        <ion-slide *ngFor="let item of listQuestions">
+            <ion-card>
+                <ion-card-header>
+                    Câu {{item.id}}. {{item.name}}
+                </ion-card-header>
+                <ion-card-content *ngFor="let asnwer of item.answers; let i = index">
+                   {{i + 1}}. {{asnwer.answerName}}
+                </ion-card-content>
+            </ion-card>
+        </ion-slide>
+    
+    </ion-slides>
 </ion-content>
 
 <ion-footer>
@@ -24,13 +38,13 @@
               <ion-col text-center col-md-3>
                   <ion-icon name="md-star-outline"></ion-icon>
               </ion-col>
-              <ion-col text-center col-md-3>
+              <ion-col (click)="prev()" text-center col-md-3>
                   <ion-icon name="arrow-back"></ion-icon>
               </ion-col>
               <ion-col text-center col-md-3>
                   <ion-icon name="md-checkmark"></ion-icon>
               </ion-col>
-              <ion-col text-center col-md-3>
+              <ion-col (click)="next()" text-center col-md-3>
                   <ion-icon name="arrow-forward"></ion-icon>
               </ion-col>
               <ion-col text-center col-md-3>
