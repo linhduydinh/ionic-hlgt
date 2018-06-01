@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { Question } from '../../models/question';
 // import { Question } from '../../models/question';
 // import { AngularFireDatabase } from 'angularfire2/database';
@@ -14,40 +15,40 @@ export class FirestoreDataService {
 
   constructor(public _afs: AngularFirestore) {
     this.questionsCollection = this._afs.collection('questions');
-    this.questions = this.questionsCollection.snapshotChanges().map(
-    changes => {
-      return changes.map(
-        a => {
-          const data = a.payload.doc.data() as Question;
-          return data;
-        });
-    });
+    // this.questions = this.questionsCollection.snapshotChanges().map(
+    // changes => {
+    //   return changes.map(
+    //     a => {
+    //       const data = a.payload.doc.data() as Question;
+    //       return data;
+    //     });
+    // });
   }
 
   getQuestions() {
     return this.questions;
   }
 
-  // getQuestionsByCategoryId(id: number): Question[] {
+  getQuestionsByCategoryId(id: number): Observable<Question[]> {
 
-  //   const listQuestions: any = [];
-  //   const questionsRef = this._afs.firestore.collection('questions');
-  //   questionsRef.where('cId', '==', '1')
-  //               .get()
-  //               .then(function(querySnapshot) {
-  //                 console.log(querySnapshot);
-  //                   querySnapshot.forEach(function(doc) {
-  //                       // doc.data() is never undefined for query doc snapshots
-  //                       console.log(doc.id, ' => ', doc.data());
-  //                       listQuestions.push(doc);
-  //                   });
-  //               })
-  //               .catch(function(error) {
-  //                   console.log('Error getting documents: ', error);
-  //               });
-
-  //     return listQuestions;
-  // }
+    const listQuestions: any = [];
+    const questionsRef = this._afs.firestore.collection('questions');
+    questionsRef.where('cId', '==', id.toString())
+                .get()
+                .then(function(querySnapshot) {
+                  console.log(querySnapshot);
+                    querySnapshot.forEach(function(doc) {
+                        // doc.data() is never undefined for query doc snapshots
+                        console.log(doc.id, ' => ', doc.data());
+                        listQuestions.push(doc);
+                    });
+                })
+                .catch(function(error) {
+                    console.log('Error getting documents: ', error);
+                });
+      
+      return  Observable.of(listQuestions);;
+  }
 
   // addQuestion(question: any, imageUrl: string) {
   //   const questionsRef = this.questionsCollection.doc(`${question.questionId}`);

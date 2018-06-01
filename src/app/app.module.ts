@@ -13,13 +13,15 @@ import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore
 import { FirebaseConfig } from './firebase.config';
 import { AngularFireModule } from 'angularfire2';
 import { FirestoreDataService } from './services/firebase.service';
+import { QuestionsPopupPage } from '../pages/questions-popup/questions-popup';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ListPage,
-    ListQuestionsPage
+    ListQuestionsPage,
+    QuestionsPopupPage
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,8 @@ import { FirestoreDataService } from './services/firebase.service';
     MyApp,
     HomePage,
     ListPage,
-    ListQuestionsPage
+    ListQuestionsPage,
+    QuestionsPopupPage
   ],
   providers: [
     FirestoreDataService,

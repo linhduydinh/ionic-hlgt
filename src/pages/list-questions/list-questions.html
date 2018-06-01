@@ -29,6 +29,7 @@
         </ion-slide>
     
     </ion-slides>
+
 </ion-content>
 
 <ion-footer>
@@ -47,8 +48,8 @@
               <ion-col (click)="next()" text-center col-md-3>
                   <ion-icon name="arrow-forward"></ion-icon>
               </ion-col>
-              <ion-col text-center col-md-3>
-                  <ion-icon name="md-more"></ion-icon>
+              <ion-col (click)="openModal(listQuestions)" text-center col-md-3>
+                    <ion-icon name="md-more"></ion-icon>
               </ion-col>
             </ion-row>
           </ion-grid>
