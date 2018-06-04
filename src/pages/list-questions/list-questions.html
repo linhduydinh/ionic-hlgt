@@ -22,8 +22,10 @@
                 <ion-card-header>
                     Câu {{item.id}}. {{item.name}}
                 </ion-card-header>
-                <ion-card-content *ngFor="let asnwer of item.answers; let i = index">
-                   {{i + 1}}. {{asnwer.answerName}}
+                <ion-card-content *ngFor="let asnwer of item.ans; let i = index">
+                    <ion-item (click)="clickAnswer(asnwer, answerClick = !answerClick)">
+                        <span class="circle {{asnwer.aId}}" item-left>{{i + 1}}</span> {{asnwer.aName}}
+                    </ion-item>
                 </ion-card-content>
             </ion-card>
         </ion-slide>

@@ -1,14 +1,14 @@
 export class Question {
     id: string;
     name: string;
-    categoryId: string;
-    answers: Answer[];
-    explain: string;
+    cId: string;
+    ans: Answer[];
+    expl: string;
     imageUrl: string;
 }
 
 export class Answer {
-    answerId: string;
-    answerName: string;
-    isCorrect: boolean;
+    aId: string;
+    aName: string;
+    isCor: boolean;
 }

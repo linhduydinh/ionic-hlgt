@@ -14,6 +14,7 @@ import { FirebaseConfig } from './firebase.config';
 import { AngularFireModule } from 'angularfire2';
 import { FirestoreDataService } from './services/firebase.service';
 import { QuestionsPopupPage } from '../pages/questions-popup/questions-popup';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { QuestionsPopupPage } from '../pages/questions-popup/questions-popup';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FirebaseConfig.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

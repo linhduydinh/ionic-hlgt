@@ -15,40 +15,41 @@ export class FirestoreDataService {
 
   constructor(public _afs: AngularFirestore) {
     this.questionsCollection = this._afs.collection('questions');
-    // this.questions = this.questionsCollection.snapshotChanges().map(
-    // changes => {
-    //   return changes.map(
-    //     a => {
-    //       const data = a.payload.doc.data() as Question;
-    //       return data;
-    //     });
-    // });
+    this.questions = this.questionsCollection.snapshotChanges().map(
+    changes => {
+      return changes.map(
+        a => {
+          const data = a.payload.doc.data() as Question;
+          return data;
+        });
+    });
   }
 
   getQuestions() {
     return this.questions;
   }
 
-  getQuestionsByCategoryId(id: number): Observable<Question[]> {
+  // getQuestionsByCategoryId(id: number) {
+  //   return this.questions.filter(x => x. === id);
 
-    const listQuestions: any = [];
-    const questionsRef = this._afs.firestore.collection('questions');
-    questionsRef.where('cId', '==', id.toString())
-                .get()
-                .then(function(querySnapshot) {
-                  console.log(querySnapshot);
-                    querySnapshot.forEach(function(doc) {
-                        // doc.data() is never undefined for query doc snapshots
-                        console.log(doc.id, ' => ', doc.data());
-                        listQuestions.push(doc);
-                    });
-                })
-                .catch(function(error) {
-                    console.log('Error getting documents: ', error);
-                });
+  //   const listQuestions: any = [];
+  //   const questionsRef = this._afs.firestore.collection('questions');
+  //   questionsRef.where('cId', '==', id.toString())
+  //               .get()
+  //               .then(function(querySnapshot) {
+  //                 console.log(querySnapshot);
+  //                   querySnapshot.forEach(function(doc) {
+  //                       // doc.data() is never undefined for query doc snapshots
+  //                       console.log(doc.id, ' => ', doc.data());
+  //                       listQuestions.push(doc);
+  //                   });
+  //               })
+  //               .catch(function(error) {
+  //                   console.log('Error getting documents: ', error);
+  //               });
       
-      return  Observable.of(listQuestions);;
-  }
+  //     return  Observable.of(listQuestions);;
+  // }
 
   // addQuestion(question: any, imageUrl: string) {
   //   const questionsRef = this.questionsCollection.doc(`${question.questionId}`);
