@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Slides, ModalController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, NavParams, Slides, ModalController, LoadingController, Loading, ViewController } from 'ionic-angular';
 import { FirestoreDataService } from '../../app/services/firebase.service';
 import { Question } from '../../models/question';
 import { QuestionsPopupPage } from '../questions-popup/questions-popup';
@@ -22,7 +22,7 @@ export class ListQuestionsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController,
               private firestoreService: FirestoreDataService, public modalCtrl: ModalController, 
-              private storage: Storage) {
+              private storage: Storage, public viewCtrl: ViewController) {
     this.category = navParams.get('item');
     this.pageTitle = this.category.name;
 
@@ -83,6 +83,11 @@ export class ListQuestionsPage {
   openModal(listQuestions: any) {
     console.log(listQuestions);
     let modal = this.modalCtrl.create(QuestionsPopupPage, {listQuestions: listQuestions});
+    modal.onDidDismiss((item, index) => {
+      console.log(item);
+      console.log(item.index);
+      this.slides.slideTo(item.index);
+    });
     modal.present();
   }
 
