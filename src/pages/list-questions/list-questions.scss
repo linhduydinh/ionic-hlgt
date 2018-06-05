@@ -6,7 +6,7 @@ ion-card-header {
     display: block;
 }
 .card-content {
-    padding: 10px 16px;
+    padding: 0px 16px;
     font-size: 1.4rem;
     line-height: 1.4;
     text-align: left;
@@ -26,8 +26,12 @@ ion-slides {
         border: 1px solid #000;    
         border-radius: 50%;
         padding: 0px 5px;
+        margin-right: 8px !important;
         &.selected {
             border-color: red;
+        }
+        &.completed {
+            border: 3px solid red;
         }
     }
 }

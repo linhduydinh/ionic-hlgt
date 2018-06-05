@@ -19,6 +19,9 @@ export class ListQuestionsPage {
   listQuestions: Question[] = [];
   loader: Loading;
   answerClick = false;
+  favoriteQuestions: Question[] = [];
+  favoClick = false;
+  isFavor = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController,
               private firestoreService: FirestoreDataService, public modalCtrl: ModalController, 
@@ -34,8 +37,14 @@ export class ListQuestionsPage {
     loader.present();
     this.storage.get('questions').then((data) => {
       if (data) {
-        this.listQuestions = data.filter(x => x.cId == String(this.category.id));
-        console.log('Your age is', data);
+        console.log(data);
+        if (this.category.id == 1) {
+          this.listQuestions = data.filter(x => x.isFa);
+          console.log('Your age is', this.listQuestions);
+        } else {
+          this.listQuestions = data.filter(x => x.cId == String(this.category.id));
+          console.log('Your age is', this.listQuestions);
+        }
       } else {
         this.firestoreService.getQuestions().subscribe(res => {
           this.questions = res;
@@ -51,7 +60,17 @@ export class ListQuestionsPage {
   }
 
   ionViewDidLoad() {
+  }
 
+  slideChanged() {
+    let currentIndex = this.slides.getActiveIndex();
+    const slide = this.slides._slides[currentIndex];
+    const questionId = slide.getElementsByClassName('questionId')[0].innerHTML;
+    let question = this.listQuestions.filter(x => x.id == questionId.toString());
+    if (question[0].isFa) {
+      
+    }
+    console.log(question);
   }
 
   clickAnswer(answer: any, answerClick: boolean) {
@@ -78,6 +97,34 @@ export class ListQuestionsPage {
 
   prev() {
     this.slides.slidePrev();
+  }
+
+  completed() {
+    let currentIndex = this.slides.getActiveIndex();
+    const slide = this.slides._slides[currentIndex];
+    const questionId = slide.getElementsByClassName('questionId')[0].innerHTML;
+    let question = this.listQuestions.filter(x => x.id == questionId.toString());
+    console.log(question);
+    question[0].ans.forEach(element => {
+      if (element.isCor) {
+        slide.getElementsByClassName(String(element.aId))[0].className += ' completed';
+      }
+    });
+  }
+
+  isFavorite(favoClick: boolean) {
+    let currentIndex = this.slides.getActiveIndex();
+    const slide = this.slides._slides[currentIndex];
+    const questionId = slide.getElementsByClassName('questionId')[0].innerHTML;
+    let question = this.listQuestions.filter(x => x.id == questionId.toString());
+    console.log(question);
+    question[0].isFa = true;
+    // /    this.favoriteQuestions.push(question[0]);
+    if (favoClick) {
+      console.log(1);
+    } else {
+      console.log(10);
+    }
   }
 
   openModal(listQuestions: any) {

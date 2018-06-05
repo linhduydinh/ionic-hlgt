@@ -15,8 +15,8 @@
 
 <ion-content padding>
 
-    <button class="circle" (click)="chooseQuestion(item, i)" *ngFor="let item of listQuestions; let i = index">
-        {{i}}
+    <button class="large-circle" (click)="chooseQuestion(item, i)" *ngFor="let item of listQuestions; let i = index">
+        {{item.id}}
     </button>
 
 
