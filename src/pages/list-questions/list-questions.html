@@ -18,6 +18,7 @@
     <ion-slides #slides pager paginationType="fraction" (ionSlideDidChange)=slideChanged()>
 
         <ion-slide *ngFor="let item of listQuestions">
+
             <ion-card>
                 <ion-card-header>
                     Câu <span class="questionId">{{item.id}}</span>. {{item.name}}
@@ -28,13 +29,37 @@
                     </ion-item>
                 </ion-card-content>
             </ion-card>
+
+            <ion-footer>
+                    <ion-toolbar>
+                        <ion-grid>
+                            <ion-row>
+                              <ion-col (click)="isFavorite(favoClick =! favoClick)" text-center col-md-3>
+                                  <ion-icon name="md-star-outline"></ion-icon>
+                              </ion-col>
+                              <ion-col (click)="prev()" text-center col-md-3>
+                                  <ion-icon name="arrow-back"></ion-icon>
+                              </ion-col>
+                              <ion-col (click)="completed()" text-center col-md-3>
+                                  <ion-icon name="md-checkmark"></ion-icon>
+                              </ion-col>
+                              <ion-col (click)="next()" text-center col-md-3>
+                                  <ion-icon name="arrow-forward"></ion-icon>
+                              </ion-col>
+                              <ion-col (click)="openModal(listQuestions)" text-center col-md-3>
+                                    <ion-icon name="md-more"></ion-icon>
+                              </ion-col>
+                            </ion-row>
+                          </ion-grid>
+                  </ion-toolbar>
+                </ion-footer>
         </ion-slide>
-    
+
     </ion-slides>
 
 </ion-content>
 
-<ion-footer>
+<!-- <ion-footer>
     <ion-toolbar>
         <ion-grid>
             <ion-row>
@@ -56,4 +81,4 @@
             </ion-row>
           </ion-grid>
   </ion-toolbar>
-</ion-footer>
+</ion-footer> -->
