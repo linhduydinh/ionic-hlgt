@@ -1,0 +1,23 @@
+.item-md p {
+    color: red;
+}
+.scroll-content {
+    padding: 0 !important; 
+}
+.item.item-block {
+    border-top: 0.55px solid #c8c7cc;
+}
+.item-block {
+    .item-inner {
+        border-bottom: none !important;
+    }
+}
+ion-slides .card {
+    box-shadow: unset;
+    .card-header {
+        padding: 5px 0 16px !important; 
+    }
+    .card-content {
+        padding: 0 !important; 
+    }
+}

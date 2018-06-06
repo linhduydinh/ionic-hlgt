@@ -3,28 +3,28 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ListQuestionsPage } from '../pages/list-questions/list-questions';
-import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { FirebaseConfig } from './firebase.config';
 import { AngularFireModule } from 'angularfire2';
 import { FirestoreDataService } from './services/firebase.service';
 import { QuestionsPopupPage } from '../pages/questions-popup/questions-popup';
 import { IonicStorageModule } from '@ionic/storage';
 import { ThiThuTestPage } from '../pages/thi-thu-test/thi-thu-test';
+import { ThiThuPage } from '../pages/thi-thu/thi-thu';
+import { HocLuatPage } from '../pages/hoc-luat/hoc-luat';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    ListPage,
+    HocLuatPage,
     ListQuestionsPage,
     QuestionsPopupPage,
-    ThiThuTestPage
+    ThiThuTestPage,
+    ThiThuPage
   ],
   imports: [
     BrowserModule,
@@ -36,11 +36,11 @@ import { ThiThuTestPage } from '../pages/thi-thu-test/thi-thu-test';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    ListPage,
+    HocLuatPage,
     ListQuestionsPage,
     QuestionsPopupPage,
-    ThiThuTestPage
+    ThiThuTestPage,
+    ThiThuPage
   ],
   providers: [
     FirestoreDataService,

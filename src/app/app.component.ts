@@ -3,10 +3,8 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
-import { FirestoreDataService } from './services/firebase.service';
-import { ThiThuTestPage } from '../pages/thi-thu-test/thi-thu-test';
+import { ThiThuPage } from '../pages/thi-thu/thi-thu';
+import { HocLuatPage } from '../pages/hoc-luat/hoc-luat';
 
 @Component({
   templateUrl: 'app.html'
@@ -14,18 +12,17 @@ import { ThiThuTestPage } from '../pages/thi-thu-test/thi-thu-test';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = HocLuatPage;
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-              private storage: Storage, private firestoreService: FirestoreDataService) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Học Luật', component: HomePage },
-      { title: 'Thi Thử', component: ThiThuTestPage },
+      { title: 'Học Luật', component: HocLuatPage },
+      { title: 'Thi Thử', component: ThiThuPage },
       //{ title: 'Mẹo Thi', component: ListPage }
     ];
 

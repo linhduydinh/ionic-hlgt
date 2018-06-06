@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { ITimer } from '../../models/timer';
 
 /**
@@ -20,7 +20,7 @@ export class ThiThuTestPage {
   displayTime: string;
   pause = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
     
   }
 
@@ -48,10 +48,10 @@ export class ThiThuTestPage {
     var hours   = Math.floor(sec_num / 3600);
     var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
     var seconds = sec_num - (hours * 3600) - (minutes * 60);
-    var hoursString = '';
+    // var hoursString = '';
     var minutesString = '';
     var secondsString = '';
-    hoursString = (hours < 10) ? "0" + hours : hours.toString();
+    // hoursString = (hours < 10) ? "0" + hours : hours.toString();
     minutesString = (minutes < 10) ? "0" + minutes : minutes.toString();
     secondsString = (seconds < 10) ? "0" + seconds : seconds.toString();
     return minutesString + ':' + secondsString;
@@ -86,6 +86,10 @@ export class ThiThuTestPage {
             console.log('c');
         }
     }, 1000);
+  }
+
+  dismiss() {
+    this.viewCtrl.dismiss();
   }
 
 }
