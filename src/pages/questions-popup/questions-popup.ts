@@ -25,7 +25,7 @@ export class QuestionsPopupPage {
     console.log('ionViewDidLoad QuestionsPopupPage');
   }
 
-  chooseQuestion(item: any, index: number) {
+  chooseQuestionPopup(item: any, index: number) {
     this.viewCtrl.dismiss({item: item, index: index});
   }
 

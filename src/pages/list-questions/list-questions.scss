@@ -14,6 +14,7 @@ ion-card-header {
     white-space: unset;
     text-align: left;
 }
+
 .swiper-slide {
     display: block;
 }
@@ -45,5 +46,15 @@ ion-slides {
         &.completed {
             border: 3px solid red;
         }
+    }
+    .card {
+        margin-bottom: 50px;
+    }
+    ion-footer {
+        position: fixed;
+        left: unset;
+    }
+    .my-class1 {
+        color: red;
     }
 }

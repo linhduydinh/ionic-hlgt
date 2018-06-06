@@ -15,7 +15,7 @@
 
 <ion-content padding>
 
-    <ion-slides #slides pager paginationType="fraction" (ionSlideDidChange)=slideChanged()>
+    <ion-slides #slides pager paginationType="fraction">
 
         <ion-slide *ngFor="let item of listQuestions">
 
@@ -34,13 +34,13 @@
                     <ion-toolbar>
                         <ion-grid>
                             <ion-row>
-                              <ion-col (click)="isFavorite(favoClick =! favoClick)" text-center col-md-3>
-                                  <ion-icon name="md-star-outline"></ion-icon>
+                              <ion-col (click)="isFavorite(item)" text-center col-md-3>
+                                  <ion-icon [ngClass]="(item.isFa)?'my-class1':'my-class2'" name="md-star-outline"></ion-icon>
                               </ion-col>
                               <ion-col (click)="prev()" text-center col-md-3>
                                   <ion-icon name="arrow-back"></ion-icon>
                               </ion-col>
-                              <ion-col (click)="completed()" text-center col-md-3>
+                              <ion-col (click)="completed(item)" text-center col-md-3>
                                   <ion-icon name="md-checkmark"></ion-icon>
                               </ion-col>
                               <ion-col (click)="next()" text-center col-md-3>

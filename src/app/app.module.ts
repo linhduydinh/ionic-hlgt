@@ -15,6 +15,7 @@ import { AngularFireModule } from 'angularfire2';
 import { FirestoreDataService } from './services/firebase.service';
 import { QuestionsPopupPage } from '../pages/questions-popup/questions-popup';
 import { IonicStorageModule } from '@ionic/storage';
+import { ThiThuTestPage } from '../pages/thi-thu-test/thi-thu-test';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { IonicStorageModule } from '@ionic/storage';
     HomePage,
     ListPage,
     ListQuestionsPage,
-    QuestionsPopupPage
+    QuestionsPopupPage,
+    ThiThuTestPage
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,8 @@ import { IonicStorageModule } from '@ionic/storage';
     HomePage,
     ListPage,
     ListQuestionsPage,
-    QuestionsPopupPage
+    QuestionsPopupPage,
+    ThiThuTestPage
   ],
   providers: [
     FirestoreDataService,
