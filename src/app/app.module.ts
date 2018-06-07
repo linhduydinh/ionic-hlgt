@@ -28,7 +28,9 @@ import { HocLuatPage } from '../pages/hoc-luat/hoc-luat';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      backButtonText: 'Quay Lại'
+    }),
     AngularFireModule.initializeApp(FirebaseConfig.firebase),
     AngularFirestoreModule,
     IonicStorageModule.forRoot()

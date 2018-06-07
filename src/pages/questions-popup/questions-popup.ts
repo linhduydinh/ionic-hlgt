@@ -15,10 +15,16 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
 export class QuestionsPopupPage {
 
   listQuestions: any;
+  isTest = false;
+  isFinish = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
     this.listQuestions = this.navParams.get('listQuestions');
+    this.isTest = this.navParams.get('isTest');
+    this.isFinish = this.navParams.get('isFinishTest');
     console.log(this.listQuestions);
+    console.log(this.isTest);
+    console.log(this.isFinish);
   }
 
   ionViewDidLoad() {

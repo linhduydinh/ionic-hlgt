@@ -11,24 +11,63 @@
       </ion-title>
       <ion-buttons start>
         <button ion-button (click)="dismiss()">
-          <span ion-text color="primary" showWhen="ios">Cancel</span>
-          <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+          <span ion-text showWhen="ios">Hủy</span>
         </button>
       </ion-buttons>
       <ion-buttons end>
-          <button *ngIf="!pause" ion-button (click)="pauseTimer()">
-            <span ion-text color="primary" showWhen="ios">Pause</span>
-            <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
-          </button>
-          <button *ngIf="pause" ion-button (click)="resumeTimer()">
-              <span ion-text color="primary" showWhen="ios">Resume</span>
-              <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
-          </button>
+          <button ion-button (click)="finishTest()">
+            <span ion-text>Kết Thúc</span>
+        </button>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
 
 <ion-content padding>
-    <h1 text-center>{{displayTime}}</h1>
+  
+      <ion-slides #slides pager paginationType="fraction">
+  
+          <ion-slide *ngFor="let item of listQuestions; let i = index; let first = first; let last = last">
+  
+              <ion-card>
+                  <ion-card-header>
+                      Câu <span class="questionId">{{i + 1}}</span>. {{item.name}}
+                  </ion-card-header>
+                  <ion-card-content *ngFor="let asnwer of item.ans; let i = index">
+                      <ion-item (click)="clickAnswer(asnwer, answerClick = !answerClick)">
+                          <span class="circle {{asnwer.aId}}" item-left>{{i + 1}}</span> {{asnwer.aName}}
+                      </ion-item>
+                  </ion-card-content>
+              </ion-card>
+  
+              <ion-footer>
+                      <ion-toolbar>
+                          <ion-grid>
+                              <ion-row>
+                                <ion-col (click)="isFavorite(item)" text-center col-md-3>
+                                    <ion-icon [ngClass]="(item.isFa)?'isFavorite':''" name="md-star-outline"></ion-icon>
+                                </ion-col>
+                                <ion-col (click)="prev()" text-center col-md-3>
+                                    <ion-icon [ngClass]="{ disabled: first }" name="arrow-back"></ion-icon>
+                                </ion-col>
+                                <ion-col *ngIf="!pause" (click)="pauseTimer()" text-center col-md-3>
+                                    <ion-icon name="ios-pause"></ion-icon>
+                                </ion-col>
+                                <ion-col *ngIf="pause" (click)="resumeTimer()" text-center col-md-3>
+                                  <ion-icon name="ios-play"></ion-icon>
+                                </ion-col>
+                                <ion-col (click)="next()" text-center col-md-3>
+                                    <ion-icon [ngClass]="{ disabled: last }" name="arrow-forward"></ion-icon>
+                                </ion-col>
+                                <ion-col (click)="openModal(listQuestions)" text-center col-md-3>
+                                      <ion-icon name="md-more"></ion-icon>
+                                </ion-col>
+                              </ion-row>
+                            </ion-grid>
+                    </ion-toolbar>
+                  </ion-footer>
+          </ion-slide>
+  
+      </ion-slides>
+
 </ion-content>

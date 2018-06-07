@@ -23,7 +23,7 @@ export class HocLuatPage {
       { id: 7, name: 'Cấu Tạo Và Sửa Chữa', icon: 'imagecautao.png' },
       { id: 8, name: 'Hệ Thống Biển Báo', icon: 'imagebienbao.png' },
       { id: 9, name: 'Sa Hình', icon: 'imagesahinh.png' },
-      { id: 10, name: 'Tất cả 450 câu hỏi', icon: 'imagetatcacauhoi.png' }
+      { id: 10, name: 'Tất Cả 450 Câu Hỏi', icon: 'imagetatcacauhoi.png' }
     ];
   
   }

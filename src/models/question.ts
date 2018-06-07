@@ -6,7 +6,8 @@ export class Question {
     expl: string;
     imageUrl: string;
     isFa: boolean;
-    notCor: number;
+    completed: boolean;
+    isCor: boolean;
 }
 
 export class Answer {

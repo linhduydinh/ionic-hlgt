@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Description
+      Chọn Câu Hỏi
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
-        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <span ion-text showWhen="ios">Hủy</span>
         <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
       </button>
     </ion-buttons>
@@ -13,10 +13,11 @@
 </ion-header>
 
 
-<ion-content padding>
-
-    <button class="large-circle" (click)="chooseQuestionPopup(item, i)" *ngFor="let item of listQuestions; let i = index">
-        {{item.id}}
+<ion-content padding class="question-popup">
+    <p *ngIf="isFinish">Vui lòng trả lời tất cả câu hỏi chưa hoàn thành để kết thúc.</p>
+    <button class="large-circle" [ngClass]="(item.isCor)? 'isCorrect' : ( item.isCor == false ? 'notCorrect' : 'notAnswer') " (click)="chooseQuestionPopup(item, i)" *ngFor="let item of listQuestions; let i = index">
+        <span *ngIf="isTest">{{i + 1}}</span>
+        <span *ngIf="!isTest">{{item.id}}</span>
     </button>
 
 

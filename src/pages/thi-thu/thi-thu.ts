@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ThiThuTestPage } from '../thi-thu-test/thi-thu-test';
-
-/**
- * Generated class for the ThiThuPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Question } from '../../models/question';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-thi-thu',
@@ -15,11 +10,30 @@ import { ThiThuTestPage } from '../thi-thu-test/thi-thu-test';
 })
 export class ThiThuPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  listBaiLam: Array<Question[]> = [];
+  
+  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
+    this.storage.get('listBaiLam').then((data) => {
+      if (data) {
+        this.listBaiLam = data;
+        console.log(this.listBaiLam);
+        console.log(data);
+      } else {
+
+      }
+    });
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ThiThuPage');
+    this.storage.get('listBaiLam').then((data) => {
+      if (data) {
+        this.listBaiLam = data;
+        console.log(this.listBaiLam);
+        console.log(data);
+      } else {
+
+      }
+    });
   }
 
   start() {

@@ -21,8 +21,6 @@ export class ListQuestionsPage {
   answerClick = false;
   favoriteQuestions: number[] = [];
   notCorrectQuestions: any[] = [];
-  favoClick = false;
-  isFavor = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController,
               private firestoreService: FirestoreDataService, public modalCtrl: ModalController, 
@@ -32,7 +30,7 @@ export class ListQuestionsPage {
 
 
     const loader = this.loadingCtrl.create({
-      content: "Please wait...",
+      content: "Vui lòng đợi...",
       dismissOnPageChange: true
     });
     loader.present();
@@ -76,7 +74,11 @@ export class ListQuestionsPage {
             if (favor) {
               this.favoriteQuestions = favor;
               favor.forEach(element => {
-                this.listQuestions.push(data.filter(x => x.id == String(element))[0])
+                let question = data.filter(x => x.id == String(element))[0];
+                if(question) {
+                  question.isFa = true;
+                  this.listQuestions.push(question);
+                }
               })
             }
           });
@@ -110,6 +112,7 @@ export class ListQuestionsPage {
   }
 
   ionViewDidLoad() {
+
   }
 
   clickAnswer(answer: any, answerClick: boolean) {
@@ -139,21 +142,28 @@ export class ListQuestionsPage {
   }
 
   completed(questionCom: Question) {
-    let currentIndex = this.slides.getActiveIndex();
-    const slide = this.slides._slides[currentIndex];
-    let isCorrect = true;
-    questionCom.ans.forEach(element => {
-      if (element.isCor) {
-        if (!element.click) {
-          isCorrect = false;
+    console.log(questionCom);
+    if (!questionCom.completed) {
+      let currentIndex = this.slides.getActiveIndex();
+      const slide = this.slides._slides[currentIndex];
+      let isCorrect = true;
+      questionCom.isCor = true;
+      questionCom.ans.forEach(element => {
+        if (element.isCor) {
+          if (!element.click) {
+            isCorrect = false;
+            questionCom.isCor = false;
+          }
+          slide.getElementsByClassName(String(element.aId))[0].className += ' completed';
         }
-        slide.getElementsByClassName(String(element.aId))[0].className += ' completed';
+      });
+      slide.getElementsByClassName('ion-md-checkmark')[0].className += ' disabled';
+      if (!isCorrect) {
+        this.notCorrectQuestions.push(questionCom.id);
+        this.storage.set('notCorrectQuestions', this.notCorrectQuestions);
       }
-    });
-    if (!isCorrect) {
-      this.notCorrectQuestions.push(questionCom.id);
-      this.storage.set('notCorrectQuestions', this.notCorrectQuestions);
     }
+    questionCom.completed = true
   }
 
   isFavorite(questionFa: Question) {
@@ -167,8 +177,10 @@ export class ListQuestionsPage {
 
   openModal(listQuestions: any) {
     let modal = this.modalCtrl.create(QuestionsPopupPage, {listQuestions: listQuestions});
-    modal.onDidDismiss((item, index) => {
-      this.slides.slideTo(item.index);
+    modal.onDidDismiss((item) => {
+      if(item != undefined) {
+        this.slides.slideTo(item.index);
+      }
     });
     modal.present();
   }
