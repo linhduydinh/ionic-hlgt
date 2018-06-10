@@ -1,9 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Slides, ModalController, LoadingController, Loading, ViewController } from 'ionic-angular';
+import { NavController, NavParams, Slides, ModalController, LoadingController, Loading, ViewController, normalizeURL, PopoverController } from 'ionic-angular';
 import { FirestoreDataService } from '../../app/services/firebase.service';
 import { Question } from '../../models/question';
 import { QuestionsPopupPage } from '../questions-popup/questions-popup';
 import { Storage } from '@ionic/storage';
+import {File, DirectoryEntry, FileEntry} from '@ionic-native/file';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
+import { ExplainPage } from '../explain/explain';
 
 @Component({
   selector: 'page-list-questions',
@@ -21,19 +24,23 @@ export class ListQuestionsPage {
   answerClick = false;
   favoriteQuestions: number[] = [];
   notCorrectQuestions: any[] = [];
+  showEmpty = false;
+  isCompleted = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController,
-              private firestoreService: FirestoreDataService, public modalCtrl: ModalController, 
-              private storage: Storage, public viewCtrl: ViewController) {
+              private firestoreService: FirestoreDataService, public modalCtrl: ModalController, private transfer: FileTransfer,
+              private storage: Storage, public viewCtrl: ViewController, private file: File, public popoverCtrl: PopoverController) {
+
     this.category = navParams.get('item');
     this.pageTitle = this.category.name;
-
 
     const loader = this.loadingCtrl.create({
       content: "Vui lòng đợi...",
       dismissOnPageChange: true
     });
     loader.present();
+
+    // this.storage.clear();
 
     this.storage.get('questions').then((data) => {
       if (data) {
@@ -61,6 +68,8 @@ export class ListQuestionsPage {
                   })
                 }
               });
+            } else {
+              this.showEmpty = true;
             }
           });
         } 
@@ -80,6 +89,8 @@ export class ListQuestionsPage {
                   this.listQuestions.push(question);
                 }
               })
+            } else {
+              this.showEmpty = true;
             }
           });
 
@@ -103,8 +114,16 @@ export class ListQuestionsPage {
         }
       } else {
         this.firestoreService.getQuestions().subscribe(res => {
-          this.questions = res;
-          this.listQuestions = this.questions.filter(x => x.cId == String(this.category.id));
+          if (res) {
+            res.forEach(element => {
+              this.saveImageToStorage(element);
+            })
+            this.storage.set('questions', res);
+            this.listQuestions = res.filter(x => x.cId == String(this.category.id));
+            if (this.listQuestions.length == 0) {
+              this.showEmpty = true;
+            }
+          }
         });
       }
     });
@@ -112,7 +131,32 @@ export class ListQuestionsPage {
   }
 
   ionViewDidLoad() {
+  }
 
+  saveImageToStorage(question: Question) {
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    if (question.img != undefined && question.img != null) {
+      fileTransfer.download(question.img, this.file.dataDirectory +'/'+ + question.id + '.jpg').then((entry) => {
+        console.log('download complete: ' + entry.toURL());
+        question.img = normalizeURL(entry.toURL());
+      }, (error) => {
+        console.log(error);
+      });
+    }
+  }
+
+  getImageInStorage(question: Question) {
+    if (question.img != undefined && question.img != null) {
+      this.file.resolveDirectoryUrl(this.file.dataDirectory)
+        .then((directoryEntry: DirectoryEntry) => {
+          this.file.getFile(directoryEntry, question.id + '.jpg', { create: false })
+            .then((fileEntry: FileEntry) => {
+              if (fileEntry != undefined && fileEntry != null) {
+                question.img = normalizeURL(fileEntry.nativeURL);
+              } 
+            });
+      });
+    }
   }
 
   clickAnswer(answer: any, answerClick: boolean) {
@@ -163,7 +207,8 @@ export class ListQuestionsPage {
         this.storage.set('notCorrectQuestions', this.notCorrectQuestions);
       }
     }
-    questionCom.completed = true
+    questionCom.completed = true;
+    this.isCompleted = true;
   }
 
   isFavorite(questionFa: Question) {
@@ -183,6 +228,13 @@ export class ListQuestionsPage {
       }
     });
     modal.present();
+  }
+
+  presentPopover(myEvent, question: Question) {
+    let popover = this.popoverCtrl.create(ExplainPage, {explain: question.expl});
+    popover.present({
+      ev: myEvent
+    });
   }
 
   updateStorageFavorite(questionId: any) {

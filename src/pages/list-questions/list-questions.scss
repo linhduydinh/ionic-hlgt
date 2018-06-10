@@ -1,3 +1,8 @@
+
+.empty {
+    white-space: unset !important;
+    text-align: center;
+}
 ion-slide{
     overflow: auto;
 }
@@ -61,6 +66,16 @@ ion-slides {
     .card {
         margin-bottom: 30px;
         padding-bottom: 50px;
+        &.explain{
+            margin-bottom: 0;
+            .icon {
+                position: absolute;
+                right: 2px;
+                top: 0;
+                font-size: 2.7em;
+                color: #2ad2c9;
+            }
+        }
     }
     ion-footer {
         position: fixed;

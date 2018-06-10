@@ -65,9 +65,10 @@ export class ThiThuTestPage {
   getListQuestions(listQuestions: Question[]) {
     this.getQuestionIdsForTest();
     console.log(this.listQuestionIds);
-    this.listQuestionIds.forEach(element => {
+    this.listQuestionIds.forEach((element, index) => {
       const question = listQuestions.filter(x => x.id == element)[0];
       if (question != undefined) {
+        question.index = index;
         this.listQuestions.push(listQuestions.filter(x => x.id == element)[0]);
       }
     })
@@ -203,7 +204,7 @@ export class ThiThuTestPage {
     this.answerClick = !answerClick;
     let currentIndex = this.slides.getActiveIndex();
     const slide = this.slides._slides[currentIndex];
-    if (answer.click === undefined) {
+    if (answer.click == undefined) {
       answer.click = answerClick;
       slide.getElementsByClassName(String(answer.aId))[0].className += ' selected';
     } else {
@@ -218,42 +219,57 @@ export class ThiThuTestPage {
   }
 
   finishTest() {
-    this.navCtrl.setRoot(ThiThuPage);
-    //this.navCtrl.setRoot(this.navCtrl.getActive().component);
-    console.log(this.listQuestions);
-    // let questionNotAnswer: Question[] = [];
-    // let haveAnswer = false;
-    // this.listQuestions.forEach(element => {
-    //   if (element.ans) {
-    //     element.ans.forEach(ans => {
-    //       if (ans.click != undefined) {
-    //         haveAnswer = true
-    //       }
-    //     })
-    //     if (!haveAnswer) {
-    //       questionNotAnswer.push(element);
-    //     }
-    //     haveAnswer = false;
-    //   }
-    // })
-    // if(questionNotAnswer.length == 0) {
-    //   this.storage.get('listBaiLam').then((data) => {
-    //     if (data) {
-    //       this.listBaiLam = data;
-    //     }
-    //     this.listBaiLam.push(this.listQuestions);
-    //     this.storage.set('listBaiLam', this.listBaiLam);
-    //     this.viewCtrl.dismiss();
-    //   });
-    // } else {
-    //   let modal = this.modalCtrl.create(QuestionsPopupPage, {listQuestions: questionNotAnswer, isFinishTest: true});
-    //   modal.onDidDismiss((item) => {
-    //     if(item != undefined) {
-    //       this.slides.slideTo(item.index);
-    //     }
-    //   });
-    //   modal.present();
-    // }
+    let questionNotAnswer: Question[] = [];
+    this.listQuestions.forEach(element => {
+      let haveAnswer = false;
+      if (element.ans) {
+        element.ans.some(ans => {
+          if (ans.click != undefined) {
+            return haveAnswer = true
+          }
+        })
+        if (!haveAnswer) {
+          questionNotAnswer.push(element);
+        }
+      }
+    })
+    if(questionNotAnswer.length == 0) {
+      this.checkTestPass(this.listQuestions);
+      this.storage.get('listBaiLam').then((data) => {
+        if (data) {
+          this.listBaiLam = data;
+        }
+        this.listBaiLam.push(this.listQuestions);
+        this.storage.set('listBaiLam', this.listBaiLam);
+        this.viewCtrl.dismiss();
+      });
+    } else {
+      let modal = this.modalCtrl.create(QuestionsPopupPage, {listQuestions: questionNotAnswer, isFinishTest: true});
+      modal.onDidDismiss((item) => {
+        if(item != undefined) {
+          this.slides.slideTo(item.item.index);
+        }
+      });
+      modal.present();
+    }
+  }
+
+  checkTestPass(questions: Question[]) {
+    let numberCorrect = 0;
+    questions.forEach(element => {
+      let isCor = true;
+      element.ans.forEach(answer => {
+        if (element.isCor) {
+          if (!answer.click) {
+            isCor = false;
+          }
+        }
+      });
+      if (isCor) {
+        numberCorrect++;
+      }
+    });
+    console.log(numberCorrect);
   }
 
 }

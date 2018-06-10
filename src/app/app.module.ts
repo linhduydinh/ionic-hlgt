@@ -8,6 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ListQuestionsPage } from '../pages/list-questions/list-questions';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { FirebaseConfig } from './firebase.config';
 import { AngularFireModule } from 'angularfire2';
 import { FirestoreDataService } from './services/firebase.service';
@@ -16,6 +17,11 @@ import { IonicStorageModule } from '@ionic/storage';
 import { ThiThuTestPage } from '../pages/thi-thu-test/thi-thu-test';
 import { ThiThuPage } from '../pages/thi-thu/thi-thu';
 import { HocLuatPage } from '../pages/hoc-luat/hoc-luat';
+import { LoginPage } from '../pages/login/login';
+import { AuthService } from './services/auth-service';
+import { File } from '@ionic-native/file';
+import { FileTransfer } from '@ionic-native/file-transfer';
+import { ExplainPage } from '../pages/explain/explain';
 
 @NgModule({
   declarations: [
@@ -24,7 +30,9 @@ import { HocLuatPage } from '../pages/hoc-luat/hoc-luat';
     ListQuestionsPage,
     QuestionsPopupPage,
     ThiThuTestPage,
-    ThiThuPage
+    ThiThuPage,
+    LoginPage,
+    ExplainPage
   ],
   imports: [
     BrowserModule,
@@ -33,7 +41,8 @@ import { HocLuatPage } from '../pages/hoc-luat/hoc-luat';
     }),
     AngularFireModule.initializeApp(FirebaseConfig.firebase),
     AngularFirestoreModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -42,13 +51,18 @@ import { HocLuatPage } from '../pages/hoc-luat/hoc-luat';
     ListQuestionsPage,
     QuestionsPopupPage,
     ThiThuTestPage,
-    ThiThuPage
+    ThiThuPage,
+    LoginPage,
+    ExplainPage
   ],
   providers: [
     FirestoreDataService,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthService,
+    File,
+    FileTransfer
   ]
 })
 export class AppModule {}

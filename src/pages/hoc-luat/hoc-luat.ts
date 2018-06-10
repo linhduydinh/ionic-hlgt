@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController, AlertController } from 'ionic-angular';
 import { ListQuestionsPage } from '../list-questions/list-questions';
 import { FirestoreDataService } from '../../app/services/firebase.service';
+import { AuthService } from '../../app/services/auth-service';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'page-hoc-luat',
@@ -10,8 +12,11 @@ import { FirestoreDataService } from '../../app/services/firebase.service';
 export class HocLuatPage {
 
   categories: Array<{id: number, name: string, icon: string}>;
+  isLoggedIn: boolean;
+  accountPhoto: string;
 
-  constructor(public navCtrl: NavController, private firebaseService: FirestoreDataService) {
+  constructor(public navCtrl: NavController, private firebaseService: FirestoreDataService,
+              public authService: AuthService, public modalCtrl: ModalController, public alertCtrl: AlertController) {
   
     this.categories = [
       { id: 1, name: 'Những Câu Hay Trả Lời Sai', icon: 'imagehaytraloisai.png' },
@@ -25,6 +30,16 @@ export class HocLuatPage {
       { id: 9, name: 'Sa Hình', icon: 'imagesahinh.png' },
       { id: 10, name: 'Tất Cả 450 Câu Hỏi', icon: 'imagetatcacauhoi.png' }
     ];
+
+    this.authService.isLoggedIn().subscribe(user => {
+      if(user !== null) {
+        this.isLoggedIn = true;
+        this.accountPhoto = user.photoURL
+        console.log(this.accountPhoto);
+      } else {
+        this.isLoggedIn = false
+      }
+    });
   
   }
 
@@ -33,6 +48,34 @@ export class HocLuatPage {
     this.navCtrl.push(ListQuestionsPage, {
       item: item
     });
+  }
+
+  login() {
+    let modal = this.modalCtrl.create(LoginPage);
+    modal.onDidDismiss((item) => {
+    });
+    modal.present();
+  }
+
+  askLogout() {
+    const confirm = this.alertCtrl.create({
+      title: 'Đăng Xuất',
+      message: 'Bạn thật sự muốn đăng xuất?',
+      buttons: [
+        {
+          text: 'Huỷ',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Đồng Ý',
+          handler: () => {
+            this.authService.logout();
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }

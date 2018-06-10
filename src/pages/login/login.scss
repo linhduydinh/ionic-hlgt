@@ -1,0 +1,19 @@
+page-login {
+    ion-content {
+        .text-login {
+            white-space: unset !important;
+            text-align: center;
+        }
+        .button {
+            width: 250px;
+            margin: 15px auto;
+            display: block;
+            .button-inner {
+                justify-content: unset;
+            }
+            .icon {
+                margin-right: 20px;
+            }
+        }
+    }
+}

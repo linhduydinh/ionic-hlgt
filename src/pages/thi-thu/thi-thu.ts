@@ -25,15 +25,15 @@ export class ThiThuPage {
   }
 
   ionViewDidLoad() {
-    this.storage.get('listBaiLam').then((data) => {
-      if (data) {
-        this.listBaiLam = data;
-        console.log(this.listBaiLam);
-        console.log(data);
-      } else {
+    // this.storage.get('listBaiLam').then((data) => {
+    //   if (data) {
+    //     this.listBaiLam = data;
+    //     console.log(this.listBaiLam);
+    //     console.log(data);
+    //   } else {
 
-      }
-    });
+    //   }
+    // });
   }
 
   start() {

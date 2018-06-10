@@ -3,13 +3,16 @@
   <ion-navbar>
     <ion-title>{{pageTitle}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
 
-    <ion-slides #slides pager paginationType="fraction">
+    <ion-item *ngIf="showEmpty">
+        <ion-label class="empty">Mục này chưa có dữ liệu, vui lòng quay trở lại sau.</ion-label>
+    </ion-item>
+
+    <ion-slides *ngIf="listQuestions.length > 0" #slides pager paginationType="fraction">
 
         <ion-slide *ngFor="let item of listQuestions; let first = first; let last = last">
 
@@ -17,11 +20,20 @@
                 <ion-card-header>
                     Câu <span class="questionId">{{item.id}}</span>. {{item.name}}
                 </ion-card-header>
+
+                <ion-card-content>
+                        <img [src]="item.img" />
+                </ion-card-content>
+
                 <ion-card-content *ngFor="let asnwer of item.ans; let i = index">
                     <ion-item (click)="clickAnswer(asnwer, answerClick = !answerClick)">
                         <span class="circle {{asnwer.aId}}" item-left>{{i + 1}}</span> {{asnwer.aName}}
                     </ion-item>
                 </ion-card-content>
+            </ion-card>
+
+            <ion-card *ngIf="isCompleted" class="explain">
+                <ion-icon (click)="presentPopover($event, item)" name="ios-information-circle-outline"></ion-icon>
             </ion-card>
 
             <ion-footer>

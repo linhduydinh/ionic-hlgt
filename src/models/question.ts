@@ -4,10 +4,11 @@ export class Question {
     cId: string;
     ans: Answer[];
     expl: string;
-    imageUrl: string;
+    img: string;
     isFa: boolean;
     completed: boolean;
     isCor: boolean;
+    index: number;
 }
 
 export class Answer {
