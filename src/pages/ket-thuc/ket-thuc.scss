@@ -1,0 +1,33 @@
+.popover-content {
+    left: 0;
+    top: 0;
+    position: relative !important;
+}
+
+.fail {
+    .toolbar-background {
+        background-color: red;
+    }
+}
+
+
+.button {
+    width: 180px;
+    margin: 15px auto;
+    display: block;
+    background-color: #2ad2c9;
+    .button-inner {
+        justify-content: unset;
+    }
+    .icon {
+        margin-right: 20px;
+        font-size: 1.5em;
+    }
+}
+
+.scroll-content {
+    text-align: center;
+    .icon {
+        margin-left: 10px
+    }
+}

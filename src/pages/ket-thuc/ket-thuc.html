@@ -1,0 +1,29 @@
+<ion-header>
+
+  <ion-navbar [ngClass]="(isPass) ? 'pass': 'fail'">
+    <ion-title>Kết Quả {{questionTestDto.numberCorrect}}/{{questionTestDto.totalQuestion}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <ion-label>Đúng: {{questionTestDto.numberCorrect}} câu / Sai: {{questionTestDto.totalQuestion - questionTestDto.numberCorrect}} câu</ion-label>
+
+    <button ion-button [round]="true" (click)="back()">
+        Quay Lại
+        <ion-icon name="ios-close-circle-outline"></ion-icon>
+    </button>
+
+    <button ion-button [round]="true" (click)="review()">
+        Xem Lại
+        <ion-icon name="ios-refresh-circle-outline"></ion-icon>
+    </button>
+
+    <button ion-button [round]="true" (click)="newTest()">
+        Làm Bài Mới
+        <ion-icon name="md-copy"></ion-icon>
+    </button>
+
+</ion-content>

@@ -1,11 +1,13 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { NavController, NavParams, ViewController, ModalController, Slides, Loading, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, ModalController, Slides, Loading, LoadingController, AlertController, PopoverController } from 'ionic-angular';
 import { ITimer } from '../../models/timer';
 import { Question } from '../../models/question';
 import { FirestoreDataService } from '../../app/services/firebase.service';
 import { Storage } from '@ionic/storage';
 import { QuestionsPopupPage } from '../questions-popup/questions-popup';
 import { ThiThuPage } from '../thi-thu/thi-thu';
+import { QuestionTestDto } from '../../models/questionTestDto';
+import { KetThucPage } from '../ket-thuc/ket-thuc';
 
 @Component({
   selector: 'page-thi-thu-test',
@@ -23,18 +25,24 @@ export class ThiThuTestPage {
   listQuestions: Question[] = [];
   favoriteQuestions: number[] = [];
   answerClick = false;
-  listBaiLam: Array<Question[]> = [];
+  listBaiLam: QuestionTestDto[] = [];
+  isCompleted = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, 
-              public loadingCtrl: LoadingController,
+              public loadingCtrl: LoadingController, public alertCtrl: AlertController, public popoverCtrl: PopoverController,
               private firestoreService: FirestoreDataService, private storage: Storage, public modalCtrl: ModalController) {
     
-    const loader = this.loadingCtrl.create({
+    this.loader = this.loadingCtrl.create({
       content: "Vui lòng đợi...",
-      dismissOnPageChange: true
-    });
-    loader.present();
+      dismissOnPageChange: true,
 
+    });
+    this.loader.present();
+  }
+
+  ionViewDidLoad() {
+    this.initTimer();
+    this.startTimer();
     this.storage.get('questions').then((data) => {
       if (data) {
         this.getListQuestions(data);
@@ -54,12 +62,7 @@ export class ThiThuTestPage {
         });
       }
     });
-
-  }
-
-  ionViewDidLoad() {
-    this.initTimer();
-    this.startTimer();
+    this.loader.dismiss();
   }
 
   getListQuestions(listQuestions: Question[]) {
@@ -128,17 +131,18 @@ export class ThiThuTestPage {
         }
         else {
             this.timer.hasFinished = true;
-            console.log('c');
+            this.finishTest();
         }
     }, 1000);
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.pauseTimer();
+    this.showConfirmExit();
   }
 
   getQuestionIdsForTest() {
-    for (var i = 1; i <= 30; i++) {
+    for (var i = 1; i <= 2; i++) {
       if (i <= 9) {
         this.listQuestionIds.push(this.randomIntFromInterval(1, 145));
       } else if (i == 10) {
@@ -201,19 +205,21 @@ export class ThiThuTestPage {
   }
 
   clickAnswer(answer: any, answerClick: boolean) {
-    this.answerClick = !answerClick;
-    let currentIndex = this.slides.getActiveIndex();
-    const slide = this.slides._slides[currentIndex];
-    if (answer.click == undefined) {
-      answer.click = answerClick;
-      slide.getElementsByClassName(String(answer.aId))[0].className += ' selected';
-    } else {
-      if (answer.click) {
-        answer.click = !answer.click
-        slide.getElementsByClassName(String(answer.aId))[0].classList.remove('selected');
-      } else {
-        answer.click = !answer.click
+    if (!this.isCompleted) {
+      this.answerClick = !answerClick;
+      let currentIndex = this.slides.getActiveIndex();
+      const slide = this.slides._slides[currentIndex];
+      if (answer.click == undefined) {
+        answer.click = answerClick;
         slide.getElementsByClassName(String(answer.aId))[0].className += ' selected';
+      } else {
+        if (answer.click) {
+          answer.click = !answer.click
+          slide.getElementsByClassName(String(answer.aId))[0].classList.remove('selected');
+        } else {
+          answer.click = !answer.click
+          slide.getElementsByClassName(String(answer.aId))[0].className += ' selected';
+        }
       }
     }
   }
@@ -234,14 +240,19 @@ export class ThiThuTestPage {
       }
     })
     if(questionNotAnswer.length == 0) {
-      this.checkTestPass(this.listQuestions);
+      this.isCompleted = true;
+      let numberCorrect = this.checkTestPass(this.listQuestions);
+      let questionTestDto: QuestionTestDto = new QuestionTestDto();
+      questionTestDto.questions = this.listQuestions;
+      questionTestDto.numberCorrect = numberCorrect;
+      let popover = this.popoverCtrl.create(KetThucPage, {questionTestDto: questionTestDto}, {enableBackdropDismiss: false});
+      popover.present();
       this.storage.get('listBaiLam').then((data) => {
         if (data) {
           this.listBaiLam = data;
         }
-        this.listBaiLam.push(this.listQuestions);
+        this.listBaiLam.push(questionTestDto);
         this.storage.set('listBaiLam', this.listBaiLam);
-        this.viewCtrl.dismiss();
       });
     } else {
       let modal = this.modalCtrl.create(QuestionsPopupPage, {listQuestions: questionNotAnswer, isFinishTest: true});
@@ -254,22 +265,44 @@ export class ThiThuTestPage {
     }
   }
 
-  checkTestPass(questions: Question[]) {
+  checkTestPass(questions: Question[]): number {
     let numberCorrect = 0;
     questions.forEach(element => {
-      let isCor = true;
-      element.ans.forEach(answer => {
-        if (element.isCor) {
-          if (!answer.click) {
-            isCor = false;
+      element.isCor = true;
+      element.ans.some(answer => {
+        if (answer.isCor) {
+          if (!answer.click || answer.click == undefined) {
+            return element.isCor = false;
           }
         }
       });
-      if (isCor) {
+      if (element.isCor) {
         numberCorrect++;
       }
     });
-    console.log(numberCorrect);
+    return numberCorrect;
+  }
+
+  showConfirmExit() {
+    const confirm = this.alertCtrl.create({
+      title: 'Bạn Muốn Thoát?',
+      message: 'Kết quả bài làm sẽ không được lưu.',
+      buttons: [
+        {
+          text: 'Hủy Bỏ',
+          handler: () => {
+            this.resumeTimer();
+          }
+        },
+        {
+          text: 'Đồng Ý',
+          handler: () => {
+            this.viewCtrl.dismiss();
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }

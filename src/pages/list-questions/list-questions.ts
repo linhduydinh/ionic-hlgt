@@ -25,7 +25,6 @@ export class ListQuestionsPage {
   favoriteQuestions: number[] = [];
   notCorrectQuestions: any[] = [];
   showEmpty = false;
-  isCompleted = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController,
               private firestoreService: FirestoreDataService, public modalCtrl: ModalController, private transfer: FileTransfer,
@@ -159,20 +158,22 @@ export class ListQuestionsPage {
     }
   }
 
-  clickAnswer(answer: any, answerClick: boolean) {
-    this.answerClick = !answerClick;
-    let currentIndex = this.slides.getActiveIndex();
-    const slide = this.slides._slides[currentIndex];
-    if (answer.click === undefined) {
-      answer.click = answerClick;
-      slide.getElementsByClassName(String(answer.aId))[0].className += ' selected';
-    } else {
-      if (answer.click) {
-        answer.click = !answer.click
-        slide.getElementsByClassName(String(answer.aId))[0].classList.remove('selected');
-      } else {
-        answer.click = !answer.click
+  clickAnswer(answer: any, answerClick: boolean, isCompleted: boolean) {
+    if (!isCompleted) {
+      this.answerClick = !answerClick;
+      let currentIndex = this.slides.getActiveIndex();
+      const slide = this.slides._slides[currentIndex];
+      if (answer.click === undefined) {
+        answer.click = answerClick;
         slide.getElementsByClassName(String(answer.aId))[0].className += ' selected';
+      } else {
+        if (answer.click) {
+          answer.click = !answer.click
+          slide.getElementsByClassName(String(answer.aId))[0].classList.remove('selected');
+        } else {
+          answer.click = !answer.click
+          slide.getElementsByClassName(String(answer.aId))[0].className += ' selected';
+        }
       }
     }
   }
@@ -186,7 +187,6 @@ export class ListQuestionsPage {
   }
 
   completed(questionCom: Question) {
-    console.log(questionCom);
     if (!questionCom.completed) {
       let currentIndex = this.slides.getActiveIndex();
       const slide = this.slides._slides[currentIndex];
@@ -208,7 +208,6 @@ export class ListQuestionsPage {
       }
     }
     questionCom.completed = true;
-    this.isCompleted = true;
   }
 
   isFavorite(questionFa: Question) {

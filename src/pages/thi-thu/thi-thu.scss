@@ -2,11 +2,30 @@ page-thi-thu {
     ion-content {
         .button {
             background-color: #2ad2c9;
-            width: 150px;
-            margin: 15px auto;
+            width: 130px;
+            margin: 25px auto 40px;
             display: block;
+            .button-inner {
+                color: #fff;
+            }
             .icon {
                 margin-left: 10px;
+                &.pass {
+                    color: #2ad2c9;
+                }
+                &.not-pass {
+                    color: red;
+                }
+            }
+        }
+        .list {
+            .icon {
+                &.pass {
+                    color: #2ad2c9;
+                }
+                &.not-pass {
+                    color: red;
+                }
             }
         }
     }

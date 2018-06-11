@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, MenuController } from 'ionic-angular';
 import { ThiThuTestPage } from '../thi-thu-test/thi-thu-test';
 import { Question } from '../../models/question';
 import { Storage } from '@ionic/storage';
@@ -12,11 +12,11 @@ export class ThiThuPage {
 
   listBaiLam: Array<Question[]> = [];
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage,
+              public menuCtrl: MenuController) {
     this.storage.get('listBaiLam').then((data) => {
       if (data) {
         this.listBaiLam = data;
-        console.log(this.listBaiLam);
         console.log(data);
       } else {
 
@@ -25,20 +25,16 @@ export class ThiThuPage {
   }
 
   ionViewDidLoad() {
-    // this.storage.get('listBaiLam').then((data) => {
-    //   if (data) {
-    //     this.listBaiLam = data;
-    //     console.log(this.listBaiLam);
-    //     console.log(data);
-    //   } else {
 
-    //   }
-    // });
   }
 
   start() {
-    this.navCtrl.push(ThiThuTestPage, {
-    });
+    this.navCtrl.push(ThiThuTestPage);
   }
+
+  // openMenu() {
+  //   console.log(1);
+  //   this.menuCtrl.open();
+  // }
 
 }

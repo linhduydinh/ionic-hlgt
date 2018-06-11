@@ -22,6 +22,8 @@ import { AuthService } from './services/auth-service';
 import { File } from '@ionic-native/file';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { ExplainPage } from '../pages/explain/explain';
+import { KetThucPage } from '../pages/ket-thuc/ket-thuc';
+import { XemLaiPage } from '../pages/xem-lai/xem-lai';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { ExplainPage } from '../pages/explain/explain';
     ThiThuTestPage,
     ThiThuPage,
     LoginPage,
-    ExplainPage
+    ExplainPage,
+    KetThucPage,
+    XemLaiPage
   ],
   imports: [
     BrowserModule,
@@ -53,7 +57,9 @@ import { ExplainPage } from '../pages/explain/explain';
     ThiThuTestPage,
     ThiThuPage,
     LoginPage,
-    ExplainPage
+    ExplainPage,
+    KetThucPage,
+    XemLaiPage
   ],
   providers: [
     FirestoreDataService,

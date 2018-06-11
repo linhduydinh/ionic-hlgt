@@ -15,15 +15,22 @@
         <ion-icon name="md-alarm"></ion-icon>
     </button>
 
-    <ion-list>
-        <ion-item *ngFor="let item of listBaiLam">
-            <ion-avatar item-start>
-            <img src="img/avatar-finn.png">
-            </ion-avatar>
-            <h2>Finn</h2>
-            <h3>Don't Know What To Do!</h3>
-            <p>I've had a pretty messed up day. If we just...</p>
-        </ion-item>
-    </ion-list>
+
+    <ion-card>
+        <ion-card-header>
+            Danh Sách Bài Làm 
+        </ion-card-header>
+        
+        <ion-list>
+            <button ion-item *ngFor="let item of listBaiLam">
+                <ion-icon class="pass" *ngIf="item.numberCorrect > 27" name="md-checkbox-outline" item-start></ion-icon>
+                <ion-icon class="not-pass" *ngIf="item.numberCorrect <= 27" name="ios-remove-circle-outline" item-start></ion-icon>
+                <span *ngIf="item.numberCorrect > 27">Đậu</span>
+                <span *ngIf="item.numberCorrect <= 27">Không Đậu</span>
+                <span item-end>{{item.numberCorrect}}/{{item.totalQuestion}}</span>
+            </button>
+        
+        </ion-list>
+    </ion-card>
 
 </ion-content>

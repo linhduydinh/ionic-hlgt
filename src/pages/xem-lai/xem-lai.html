@@ -1,0 +1,56 @@
+<ion-header>
+
+    <ion-navbar>
+      <ion-title>Xem Lại</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  
+  <ion-content padding>
+  
+      <ion-slides *ngIf="questionTestDto" #slides pager paginationType="fraction">
+  
+          <ion-slide *ngFor="let item of questionTestDto.questions; let first = first; let last = last">
+  
+              <ion-card>
+                  <ion-card-header>
+                      Câu <span class="questionId">{{item.id}}</span>. {{item.name}}
+                  </ion-card-header>
+  
+                  <ion-card-content>
+                          <img *ngIf="item.img" [src]="item.img" />
+                  </ion-card-content>
+  
+                  <ion-card-content *ngFor="let answer of item.ans; let i = index">
+                      <ion-item>
+                          <span class="circle" [ngClass]="(answer.click) ? ' selected':''" item-left>{{i + 1}}</span> {{answer.aName}}
+                      </ion-item>
+                  </ion-card-content>
+              </ion-card>
+  
+              <ion-footer>
+                      <ion-toolbar>
+                          <ion-grid>
+                              <ion-row>
+                                <ion-col (click)="isFavorite(item)" text-center col-md-3>
+                                    <ion-icon [ngClass]="(item.isFa)?'isFavorite':''" name="md-star-outline"></ion-icon>
+                                </ion-col>
+                                <ion-col (click)="prev()" text-center col-md-3>
+                                    <ion-icon [ngClass]="{ disabled: first }" name="arrow-back"></ion-icon>
+                                </ion-col>
+                                <ion-col (click)="next()" text-center col-md-3>
+                                    <ion-icon [ngClass]="{ disabled: last }" name="arrow-forward"></ion-icon>
+                                </ion-col>
+                                <ion-col (click)="openModal(questionTestDto.questions)" text-center col-md-3>
+                                      <ion-icon name="md-more"></ion-icon>
+                                </ion-col>
+                              </ion-row>
+                            </ion-grid>
+                    </ion-toolbar>
+                  </ion-footer>
+          </ion-slide>
+  
+      </ion-slides>
+  
+  </ion-content>
+  

@@ -28,7 +28,6 @@ export class QuestionsPopupPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad QuestionsPopupPage');
   }
 
   chooseQuestionPopup(item: any, index: number) {

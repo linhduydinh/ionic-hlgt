@@ -21,18 +21,18 @@
                     Câu <span class="questionId">{{item.id}}</span>. {{item.name}}
                 </ion-card-header>
 
-                <ion-card-content>
+                <ion-card-content *ngIf="item.img">
                         <img [src]="item.img" />
                 </ion-card-content>
 
                 <ion-card-content *ngFor="let asnwer of item.ans; let i = index">
-                    <ion-item (click)="clickAnswer(asnwer, answerClick = !answerClick)">
+                    <ion-item (click)="clickAnswer(asnwer, answerClick = !answerClick, item.completed)">
                         <span class="circle {{asnwer.aId}}" item-left>{{i + 1}}</span> {{asnwer.aName}}
                     </ion-item>
                 </ion-card-content>
             </ion-card>
 
-            <ion-card *ngIf="isCompleted" class="explain">
+            <ion-card *ngIf="item.completed" class="explain">
                 <ion-icon (click)="presentPopover($event, item)" name="ios-information-circle-outline"></ion-icon>
             </ion-card>
 
