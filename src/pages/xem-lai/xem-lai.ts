@@ -5,6 +5,7 @@ import { Question } from '../../models/question';
 
 import { Storage } from '@ionic/storage';
 import { QuestionsPopupPage } from '../questions-popup/questions-popup';
+import { ThiThuTestPage } from '../thi-thu-test/thi-thu-test';
 
 @Component({
   selector: 'page-xem-lai',
@@ -61,6 +62,10 @@ export class XemLaiPage {
       }
     });
     modal.present();
+  }
+
+  lamLai() {
+    this.navCtrl.push(ThiThuTestPage, {questionTestDto: this.questionTestDto});
   }
 
 }

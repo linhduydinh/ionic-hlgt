@@ -2,6 +2,11 @@
 
     <ion-navbar>
       <ion-title>Xem Lại</ion-title>
+      <ion-buttons end>
+            <button (click)="lamLai()" ion-button>
+                Làm Lại
+            </button>
+          </ion-buttons>
     </ion-navbar>
   </ion-header>
   
@@ -10,11 +15,11 @@
   
       <ion-slides *ngIf="questionTestDto" #slides pager paginationType="fraction">
   
-          <ion-slide *ngFor="let item of questionTestDto.questions; let first = first; let last = last">
+          <ion-slide *ngFor="let item of questionTestDto.questions; let i = index; let first = first; let last = last">
   
               <ion-card>
                   <ion-card-header>
-                      Câu <span class="questionId">{{item.id}}</span>. {{item.name}}
+                      Câu <span class="questionId">{{i + 1}}</span>. {{item.name}}
                   </ion-card-header>
   
                   <ion-card-content>

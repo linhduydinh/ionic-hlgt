@@ -27,10 +27,14 @@ export class ThiThuTestPage {
   answerClick = false;
   listBaiLam: QuestionTestDto[] = [];
   isCompleted = false;
+  questionTestDto: QuestionTestDto;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, 
               public loadingCtrl: LoadingController, public alertCtrl: AlertController, public popoverCtrl: PopoverController,
               private firestoreService: FirestoreDataService, private storage: Storage, public modalCtrl: ModalController) {
+
+    this.questionTestDto = this.navParams.get('questionTestDto');
+    console.log(this.questionTestDto);
     
     this.loader = this.loadingCtrl.create({
       content: "Vui lòng đợi...",
@@ -142,21 +146,28 @@ export class ThiThuTestPage {
   }
 
   getQuestionIdsForTest() {
-    for (var i = 1; i <= 2; i++) {
-      if (i <= 9) {
-        this.listQuestionIds.push(this.randomIntFromInterval(1, 145));
-      } else if (i == 10) {
-        this.listQuestionIds.push(this.randomIntFromInterval(146, 175));
-      } else if (i == 11) {
-        this.listQuestionIds.push(this.randomIntFromInterval(146, 175));
-      } else if (i == 12) {
-        this.listQuestionIds.push(this.randomIntFromInterval(201, 255));
-      } else if (i <= 21 ) {
-        this.listQuestionIds.push(this.randomIntFromInterval(256, 355));
-      } else {
-        this.listQuestionIds.push(this.randomIntFromInterval(356, 450));
+    if(this.questionTestDto == undefined || this.questionTestDto == null) {
+      for (var i = 1; i <= 2; i++) {
+        if (i <= 9) {
+          this.listQuestionIds.push(this.randomIntFromInterval(1, 145));
+        } else if (i == 10) {
+          this.listQuestionIds.push(this.randomIntFromInterval(146, 175));
+        } else if (i == 11) {
+          this.listQuestionIds.push(this.randomIntFromInterval(146, 175));
+        } else if (i == 12) {
+          this.listQuestionIds.push(this.randomIntFromInterval(201, 255));
+        } else if (i <= 21 ) {
+          this.listQuestionIds.push(this.randomIntFromInterval(256, 355));
+        } else {
+          this.listQuestionIds.push(this.randomIntFromInterval(356, 450));
+        }
       }
+    } else {
+      this.questionTestDto.questions.forEach(element => {
+        this.listQuestionIds.push(element.id);
+      })
     }
+
   }
 
   randomIntFromInterval(min, max)

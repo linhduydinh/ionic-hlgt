@@ -22,7 +22,7 @@
         </ion-card-header>
         
         <ion-list>
-            <button ion-item *ngFor="let item of listBaiLam">
+            <button (click)="xemLai(item)" ion-item *ngFor="let item of listBaiLam">
                 <ion-icon class="pass" *ngIf="item.numberCorrect > 27" name="md-checkbox-outline" item-start></ion-icon>
                 <ion-icon class="not-pass" *ngIf="item.numberCorrect <= 27" name="ios-remove-circle-outline" item-start></ion-icon>
                 <span *ngIf="item.numberCorrect > 27">Đậu</span>
