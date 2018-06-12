@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { NavController, NavParams, ViewController, ModalController, Slides, Loading, LoadingController, AlertController, PopoverController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, ModalController, Slides, Loading, LoadingController, AlertController, PopoverController, DateTime } from 'ionic-angular';
 import { ITimer } from '../../models/timer';
 import { Question } from '../../models/question';
 import { FirestoreDataService } from '../../app/services/firebase.service';
@@ -256,6 +256,7 @@ export class ThiThuTestPage {
       let questionTestDto: QuestionTestDto = new QuestionTestDto();
       questionTestDto.questions = this.listQuestions;
       questionTestDto.numberCorrect = numberCorrect;
+      questionTestDto.createDate = new Date().toLocaleDateString();
       let popover = this.popoverCtrl.create(KetThucPage, {questionTestDto: questionTestDto}, {enableBackdropDismiss: false, cssClass: 'ket-thuc'});
       popover.present();
       this.storage.get('listBaiLam').then((data) => {

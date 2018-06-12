@@ -39,6 +39,7 @@
                             <ion-icon class="not-pass" *ngIf="item.numberCorrect <= 27" name="ios-remove-circle-outline" item-start></ion-icon>
                             <span *ngIf="item.numberCorrect > 27">Đậu</span>
                             <span *ngIf="item.numberCorrect <= 27">Không Đậu</span>
+                            <ion-icon class="pass" name="md-checkbox-outline" item-start></ion-icon>
                             <span item-end>{{item.numberCorrect}}/{{item.totalQuestion}}</span>
                         </button>
                     </ion-card>
