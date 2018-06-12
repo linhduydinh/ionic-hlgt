@@ -163,16 +163,17 @@ export class ListQuestionsPage {
       this.answerClick = !answerClick;
       let currentIndex = this.slides.getActiveIndex();
       const slide = this.slides._slides[currentIndex];
+      let ans = slide.getElementsByClassName(String(answer.aId))[0];
       if (answer.click === undefined) {
         answer.click = answerClick;
-        slide.getElementsByClassName(String(answer.aId))[0].className += ' selected';
+        ans.getElementsByTagName('span')[0].className += ' selected';
       } else {
         if (answer.click) {
           answer.click = !answer.click
-          slide.getElementsByClassName(String(answer.aId))[0].classList.remove('selected');
+          ans.getElementsByTagName('span')[0].classList.remove('selected');
         } else {
           answer.click = !answer.click
-          slide.getElementsByClassName(String(answer.aId))[0].className += ' selected';
+          ans.getElementsByTagName('span')[0].className += ' selected';
         }
       }
     }
@@ -198,7 +199,8 @@ export class ListQuestionsPage {
             isCorrect = false;
             questionCom.isCor = false;
           }
-          slide.getElementsByClassName(String(element.aId))[0].className += ' completed';
+          let answer = slide.getElementsByClassName(String(element.aId))[0];
+          answer.getElementsByClassName('item-inner')[0].className += ' completed';
         }
       });
       slide.getElementsByClassName('ion-md-checkmark')[0].className += ' disabled';

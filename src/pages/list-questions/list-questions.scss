@@ -45,6 +45,7 @@ ion-card-header {
     }
 }
 
+
 ion-slides {
     .circle {
         border: 1px solid #000;
@@ -55,11 +56,14 @@ ion-slides {
         text-align: center;
         padding-top: 1px;
         &.selected {
-            border-color:#2ad2c9;
+            padding-top: 0px;
+            border: 2px solid #2ad2c9;
         }
-        &.completed {
-            background-color: #2ad2c9;
-            color: white;
+    }
+    .item-block {
+        padding-left: 0;
+        .completed {
+            border-right: 5px solid #2ad2c9 !important;
         }
     }
     .card {

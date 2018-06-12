@@ -256,7 +256,7 @@ export class ThiThuTestPage {
       let questionTestDto: QuestionTestDto = new QuestionTestDto();
       questionTestDto.questions = this.listQuestions;
       questionTestDto.numberCorrect = numberCorrect;
-      let popover = this.popoverCtrl.create(KetThucPage, {questionTestDto: questionTestDto}, {enableBackdropDismiss: false});
+      let popover = this.popoverCtrl.create(KetThucPage, {questionTestDto: questionTestDto}, {enableBackdropDismiss: false, cssClass: 'ket-thuc'});
       popover.present();
       this.storage.get('listBaiLam').then((data) => {
         if (data) {

@@ -17,10 +17,12 @@
 
 <ion-content padding>
   <ion-list>
-    <button ion-item *ngFor="let item of categories" (click)="itemTapped($event, item)">
-      <img item-start src="assets/imgs/{{item.icon}}" />
-      <p>{{item.name}}</p>
-      <ion-icon [name]="ios-arrow-forward" item-end></ion-icon>
-    </button>
+    <ion-card *ngFor="let item of categories">
+      <button ion-item (click)="itemTapped($event, item)">
+        <img item-start src="assets/imgs/{{item.icon}}" />
+        <p>{{item.name}}</p>
+        <ion-icon [name]="ios-arrow-forward" item-end></ion-icon>
+      </button>
+    </ion-card>
   </ion-list>
 </ion-content>

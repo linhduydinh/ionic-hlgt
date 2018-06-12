@@ -25,9 +25,9 @@
                         <img [src]="item.img" />
                 </ion-card-content>
 
-                <ion-card-content *ngFor="let asnwer of item.ans; let i = index">
+                <ion-card-content class="{{asnwer.aId}}" *ngFor="let asnwer of item.ans; let i = index">
                     <ion-item (click)="clickAnswer(asnwer, answerClick = !answerClick, item.completed)">
-                        <span class="circle {{asnwer.aId}}" item-left>{{i + 1}}</span> {{asnwer.aName}}
+                        <span class="circle" item-left>{{i + 1}}</span> {{asnwer.aName}}
                     </ion-item>
                 </ion-card-content>
             </ion-card>

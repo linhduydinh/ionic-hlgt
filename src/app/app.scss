@@ -20,3 +20,15 @@
 .toolbar-background {
     background-color: #2ad2c9;
 }
+
+@font-face {
+    font-family: RobotoCondensed-Regular;
+    src: url('../assets/fonts/RobotoCondensed-Regular.ttf');
+    font-weight: 200
+}
+
+body {
+    .app-root {
+        font-family: RobotoCondensed-Regular !important;
+    }
+} 
