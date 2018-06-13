@@ -18,6 +18,18 @@ page-thi-thu {
                 }
             }
         }
+        .item-inner {
+            background-image: none !important;
+            padding-right: 10px !important;
+            .icon {
+                margin-left: 10px !important;
+                margin-top: 5px !important;
+                margin-bottom: 4px !important;
+            }
+            .ion-ios-eye-outline {
+                font-size: 2.8em;
+            }
+        }
         .list {
             .icon {
                 &.pass {

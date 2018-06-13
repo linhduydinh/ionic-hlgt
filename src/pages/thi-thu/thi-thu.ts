@@ -28,9 +28,6 @@ export class ThiThuPage {
             this.failTest.push(element);
           }
         })
-        console.log(data);
-        console.log(this.passTest);
-        console.log(this.failTest);
       } else {
 
       }
@@ -49,8 +46,25 @@ export class ThiThuPage {
     this.navCtrl.push(XemLaiPage, {questionTestDto: questionTestDto, isTest: true});
   }
 
+  lamLai(questionTestDto: QuestionTestDto) {
+    this.navCtrl.push(ThiThuTestPage, {questionTestDto: questionTestDto});
+  }
+
+  xoaItem(questionTestDto: QuestionTestDto) {
+    this.listBaiLam = this.listBaiLam.filter(x => x.createDate != questionTestDto.createDate);
+    this.listBaiLam.forEach(element => {
+      this.passTest = [];
+      this.failTest = [];
+      if (element.numberCorrect > 27) {
+        this.passTest.push(element);
+      } else {
+        this.failTest.push(element);
+      }
+    })
+    this.storage.set('listBaiLam', this.listBaiLam);
+  }
+
   onSegmentChanged(segmentButton: any) {
-    console.log(segmentButton.value);
-    this.selectedSegment = segmentButton.value; //all, read, unread
+    this.selectedSegment = segmentButton.value;
   }
 }

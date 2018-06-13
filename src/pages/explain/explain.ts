@@ -23,7 +23,7 @@ export class ExplainPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ExplainPage');
+
   }
 
 }

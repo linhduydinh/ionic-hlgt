@@ -136,7 +136,6 @@ export class ListQuestionsPage {
     const fileTransfer: FileTransferObject = this.transfer.create();
     if (question.img != undefined && question.img != null) {
       fileTransfer.download(question.img, this.file.dataDirectory +'/'+ + question.id + '.jpg').then((entry) => {
-        console.log('download complete: ' + entry.toURL());
         question.img = normalizeURL(entry.toURL());
       }, (error) => {
         console.log(error);

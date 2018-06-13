@@ -21,7 +21,6 @@ export class XemLaiPage {
               public modalCtrl: ModalController) {
 
     this.questionTestDto = this.navParams.get('questionTestDto');
-    console.log(this.questionTestDto);
 
   }
 

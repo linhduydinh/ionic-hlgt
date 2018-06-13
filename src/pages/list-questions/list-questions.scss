@@ -47,6 +47,9 @@ ion-card-header {
 
 
 ion-slides {
+    .card-header {
+        font-weight: 600;
+    }
     .circle {
         border: 1px solid #000;
         border-radius: 50%;

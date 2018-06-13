@@ -15,16 +15,16 @@
         <ion-icon name="md-alarm"></ion-icon>
     </button>
 
-    <ion-card>
+    <ion-card *ngIf="listBaiLam.length">
         <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged($event)">
             <ion-segment-button value="all">
-                Tất Cả
+                Tất Cả ({{listBaiLam.length}})
             </ion-segment-button>
             <ion-segment-button value="success">
-                Đậu
+                Đậu ({{passTest.length}})
             </ion-segment-button>
             <ion-segment-button value="fail">
-                Không Đậu
+                Không Đậu ({{failTest.length}})
             </ion-segment-button>
         </ion-segment>
     </ion-card>
@@ -34,33 +34,37 @@
 
               <ion-list *ngSwitchCase="'all'">
                     <ion-card *ngFor="let item of listBaiLam">
-                        <button (click)="xemLai(item)" ion-item>
-                            <ion-icon class="pass" *ngIf="item.numberCorrect > 27" name="md-checkbox-outline" item-start></ion-icon>
-                            <ion-icon class="not-pass" *ngIf="item.numberCorrect <= 27" name="ios-remove-circle-outline" item-start></ion-icon>
-                            <span *ngIf="item.numberCorrect > 27">Đậu</span>
-                            <span *ngIf="item.numberCorrect <= 27">Không Đậu</span>
-                            <ion-icon class="pass" name="md-checkbox-outline" item-start></ion-icon>
-                            <span item-end>{{item.numberCorrect}}/{{item.totalQuestion}}</span>
+                        <button ion-item>
+                            <ion-icon class="pass" *ngIf="item.numberCorrect > 27" name="md-happy" item-start></ion-icon>
+                            <ion-icon class="not-pass" *ngIf="item.numberCorrect <= 27" name="md-sad" item-start></ion-icon>
+                            <span item-start>{{item.numberCorrect}}/{{item.totalQuestion}}</span>
+                            <ion-icon (click)="xemLai(item)" name="ios-eye-outline" item-end></ion-icon>
+                            <ion-icon (click)="lamLai(item)" name="ios-refresh-circle-outline" item-end></ion-icon>
+                            <ion-icon (click)="xoaItem(item)" name="ios-trash-outline" item-end></ion-icon>
                         </button>
                     </ion-card>
               </ion-list>
           
               <ion-list *ngSwitchCase="'success'">
-                    <ion-card *ngIf="passTest">
-                        <button *ngFor="let item of passTest" (click)="xemLai(item)" ion-item>
-                            <ion-icon class="pass" name="md-checkbox-outline" item-start></ion-icon>
-                            <span>Đậu</span>
-                            <span item-end>{{item.numberCorrect}}/{{item.totalQuestion}}</span>
+                    <ion-card *ngFor="let item of passTest">
+                        <button (click)="xemLai(item)" ion-item>
+                            <ion-icon class="pass" name="md-happy" item-start></ion-icon>
+                            <span item-start>{{item.numberCorrect}}/{{item.totalQuestion}}</span>
+                            <ion-icon (click)="xemLai(item)" name="ios-eye-outline" item-end></ion-icon>
+                            <ion-icon (click)="lamLai(item)" name="ios-refresh-circle-outline" item-end></ion-icon>
+                            <ion-icon (click)="xoaItem(item)" name="ios-trash-outline" item-end></ion-icon>
                         </button>
                     </ion-card>
               </ion-list>
           
               <ion-list *ngSwitchCase="'fail'">
-                    <ion-card *ngIf="failTest">
-                        <button *ngFor="let item of failTest" (click)="xemLai(item)" ion-item>
-                            <ion-icon class="not-pass" name="ios-remove-circle-outline" item-start></ion-icon>
-                            <span>Không Đậu</span>
-                            <span item-end>{{item.numberCorrect}}/{{item.totalQuestion}}</span>
+                    <ion-card *ngFor="let item of failTest">
+                        <button (click)="xemLai(item)" ion-item>
+                            <ion-icon class="not-pass" name="md-sad" item-start></ion-icon>
+                            <span item-start>{{item.numberCorrect}}/{{item.totalQuestion}}</span>
+                            <ion-icon (click)="xemLai(item)" name="ios-eye-outline" item-end></ion-icon>
+                            <ion-icon (click)="lamLai(item)" name="ios-refresh-circle-outline" item-end></ion-icon>
+                            <ion-icon (click)="xoaItem(item)" name="ios-trash-outline" item-end></ion-icon>
                         </button>
                     </ion-card>
               </ion-list>
@@ -69,7 +73,7 @@
 
           </ion-content>
 
-    <ion-card>
+    <!-- <ion-card>
         <ion-card-header>
             Danh Sách Bài Làm 
         </ion-card-header>
@@ -84,6 +88,6 @@
             </button>
         
         </ion-list>
-    </ion-card>
+    </ion-card> -->
 
 </ion-content>

@@ -5,7 +5,6 @@ import { Question } from '../../models/question';
 import { FirestoreDataService } from '../../app/services/firebase.service';
 import { Storage } from '@ionic/storage';
 import { QuestionsPopupPage } from '../questions-popup/questions-popup';
-import { ThiThuPage } from '../thi-thu/thi-thu';
 import { QuestionTestDto } from '../../models/questionTestDto';
 import { KetThucPage } from '../ket-thuc/ket-thuc';
 
@@ -34,7 +33,6 @@ export class ThiThuTestPage {
               private firestoreService: FirestoreDataService, private storage: Storage, public modalCtrl: ModalController) {
 
     this.questionTestDto = this.navParams.get('questionTestDto');
-    console.log(this.questionTestDto);
     
     this.loader = this.loadingCtrl.create({
       content: "Vui lòng đợi...",
@@ -71,7 +69,6 @@ export class ThiThuTestPage {
 
   getListQuestions(listQuestions: Question[]) {
     this.getQuestionIdsForTest();
-    console.log(this.listQuestionIds);
     this.listQuestionIds.forEach((element, index) => {
       const question = listQuestions.filter(x => x.id == element)[0];
       if (question != undefined) {
@@ -82,7 +79,7 @@ export class ThiThuTestPage {
   }
 
   initTimer() {
-    if(!this.timeInSeconds) { this.timeInSeconds = 1800; }
+    if(!this.timeInSeconds) { this.timeInSeconds = 1200; }
 
     this.timer = <ITimer> {
         seconds: this.timeInSeconds,
@@ -256,7 +253,7 @@ export class ThiThuTestPage {
       let questionTestDto: QuestionTestDto = new QuestionTestDto();
       questionTestDto.questions = this.listQuestions;
       questionTestDto.numberCorrect = numberCorrect;
-      questionTestDto.createDate = new Date().toLocaleDateString();
+      questionTestDto.createDate = new Date().toLocaleString();
       let popover = this.popoverCtrl.create(KetThucPage, {questionTestDto: questionTestDto}, {enableBackdropDismiss: false, cssClass: 'ket-thuc'});
       popover.present();
       this.storage.get('listBaiLam').then((data) => {

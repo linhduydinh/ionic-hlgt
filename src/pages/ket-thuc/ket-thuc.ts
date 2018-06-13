@@ -19,7 +19,7 @@ export class KetThucPage {
 
     this.questionTestDto = this.navParams.get('questionTestDto');
     this.isPass = this.questionTestDto.totalQuestion == this.questionTestDto.numberCorrect;
-    console.log(this.questionTestDto);
+
   }
 
   ionViewDidLoad() {

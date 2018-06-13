@@ -35,7 +35,6 @@ export class HocLuatPage {
       if(user !== null) {
         this.isLoggedIn = true;
         this.accountPhoto = user.photoURL
-        console.log(this.accountPhoto);
       } else {
         this.isLoggedIn = false
       }

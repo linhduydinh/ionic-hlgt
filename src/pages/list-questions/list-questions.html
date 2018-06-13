@@ -18,7 +18,7 @@
 
             <ion-card>
                 <ion-card-header>
-                    Câu <span class="questionId">{{item.id}}</span>. <span [innerHtml]="item.name"></span>
+                    <span class="questionId"><strong>Câu {{item.id}}</strong></span>. <span [innerHtml]="item.name"></span>
                 </ion-card-header>
 
                 <ion-card-content *ngIf="item.img">
