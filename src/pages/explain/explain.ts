@@ -14,11 +14,13 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class ExplainPage {
 
-  explain: string ;
+  content: string ;
+  title: string ;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
 
-    this.explain = this.navParams.get('explain');
+    this.title = this.navParams.get('title');
+    this.content = this.navParams.get('content');
 
   }
 

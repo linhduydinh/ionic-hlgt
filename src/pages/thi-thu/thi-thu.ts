@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, PopoverController } from 'ionic-angular';
 import { ThiThuTestPage } from '../thi-thu-test/thi-thu-test';
-import { Question } from '../../models/question';
 import { Storage } from '@ionic/storage';
 import { XemLaiPage } from '../xem-lai/xem-lai';
 import { QuestionTestDto } from '../../models/questionTestDto';
+import { ExplainPage } from '../explain/explain';
 
 @Component({
   selector: 'page-thi-thu',
@@ -17,7 +17,8 @@ export class ThiThuPage {
   failTest: Array<QuestionTestDto> = [];
   selectedSegment = 'all';
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, 
+              public popoverCtrl: PopoverController) {
     this.storage.get('listBaiLam').then((data) => {
       if (data) {
         this.listBaiLam = data;
@@ -36,6 +37,14 @@ export class ThiThuPage {
 
   ionViewDidLoad() {
 
+  }
+
+  helpText(myEvent) {
+    const helpText = ''
+    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Thông Tin', content: helpText});
+    popover.present({
+      ev: myEvent
+    });
   }
 
   start() {

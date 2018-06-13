@@ -5,11 +5,8 @@
     </button>
     <ion-title>Học Luật</ion-title>
     <ion-buttons end>
-      <button *ngIf="isLoggedIn" class="isLogin" (click)="askLogout()" ion-button>
-          <img src="{{accountPhoto}}" />
-      </button>
-      <button *ngIf="!isLoggedIn" class="login" (click)="login()" ion-button>
-          <ion-icon name="ios-contact"></ion-icon>
+      <button class="help" (click)="helpText($event)" ion-button>
+          <ion-icon name="ios-help-circle-outline"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

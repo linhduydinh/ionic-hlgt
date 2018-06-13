@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { Question } from '../../models/question';
-// import { Question } from '../../models/question';
-// import { AngularFireDatabase } from 'angularfire2/database';
+import { QuestionTestDto } from '../../models/questionTestDto';
 
 @Injectable()
 export class FirestoreDataService {
@@ -27,6 +26,20 @@ export class FirestoreDataService {
 
   getQuestions() {
     return this.questions;
+  }
+
+  addNotCorrectQuestions(userId: string, listQuestions: number[]) {
+    const questionsRef = this.questionsCollection.doc(`${userId}`);
+    questionsRef.set({notCorrectQuestions: listQuestions});
+  }
+
+  addFavoriteQuestions(userId: string, listQuestions: number[]) {
+    const questionsRef = this.questionsCollection.doc(`${userId}`);
+    questionsRef.set({favoriteQuestions: listQuestions});
+  }
+  addListBaiLam(userId: string, listBaiLam: QuestionTestDto[]) {
+    const questionsRef = this.questionsCollection.doc(`${userId}`);
+    questionsRef.set({listBaiLam: listBaiLam});
   }
 
   // getQuestionsByCategoryId(id: number) {

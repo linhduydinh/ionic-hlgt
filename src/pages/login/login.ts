@@ -35,7 +35,7 @@ export class LoginPage {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.setRoot(HocLuatPage);
   }
 
 }

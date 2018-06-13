@@ -231,7 +231,7 @@ export class ListQuestionsPage {
   }
 
   presentPopover(myEvent, question: Question) {
-    let popover = this.popoverCtrl.create(ExplainPage, {explain: question.expl});
+    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Giải Thích', content: question.expl});
     popover.present({
       ev: myEvent
     });

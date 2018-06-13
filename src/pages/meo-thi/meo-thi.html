@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>Hướng Dẫn</ion-title>
+      <ion-buttons end>
+        <button class="help" (click)="helpText($event)" ion-button>
+            <ion-icon name="ios-help-circle-outline"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+    <ion-list>
+      <ion-card *ngFor="let item of categories">
+        <button ion-item (click)="itemTapped($event, item)">
+          <img item-start src="assets/imgs/{{item.icon}}" />
+          <p>{{item.name}}</p>
+          <ion-icon [name]="ios-arrow-forward" item-end></ion-icon>
+        </button>
+      </ion-card>
+    </ion-list>
+  </ion-content>
+  

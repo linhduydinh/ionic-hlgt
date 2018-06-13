@@ -1,21 +1,19 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, PopoverController } from 'ionic-angular';
-import { ListQuestionsPage } from '../list-questions/list-questions';
+import { NavController, NavParams, PopoverController } from 'ionic-angular';
 import { ExplainPage } from '../explain/explain';
+import { HuongDanPage } from '../huong-dan/huong-dan';
 
 @Component({
-  selector: 'page-hoc-luat',
-  templateUrl: 'hoc-luat.html'
+  selector: 'page-meo-thi',
+  templateUrl: 'meo-thi.html',
 })
-export class HocLuatPage {
+export class MeoThiPage {
 
   categories: Array<{id: number, name: string, icon: string}>;
 
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
-  
+  constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController) {
+
     this.categories = [
-      { id: 1, name: 'Những Câu Hay Trả Lời Sai', icon: 'imagehaytraloisai.png' },
-      { id: 2, name: 'Những Câu Đánh Dấu', icon: 'imagecaudanhdau.png' },
       { id: 3, name: 'Khái Niệm Và Quy Tắc', icon: 'imagekhainiem.png' },
       { id: 4, name: 'Nghiệp Vụ Vận Tải', icon: 'imagenghiepvu.png' },
       { id: 5, name: 'Đạo Đức Nghề Nghiệp', icon: 'imagedaoduc.png' },
@@ -23,21 +21,23 @@ export class HocLuatPage {
       { id: 7, name: 'Cấu Tạo Và Sửa Chữa', icon: 'imagecautao.png' },
       { id: 8, name: 'Hệ Thống Biển Báo', icon: 'imagebienbao.png' },
       { id: 9, name: 'Sa Hình', icon: 'imagesahinh.png' },
-      { id: 10, name: 'Tất Cả 450 Câu Hỏi', icon: 'imagetatcacauhoi.png' }
     ];
-  
+
+  }
+
+  ionViewDidLoad() {
   }
 
   itemTapped(event, item) {
     // That's right, we're pushing to ourselves!
-    this.navCtrl.push(ListQuestionsPage, {
+    this.navCtrl.push(HuongDanPage, {
       item: item
     });
   }
 
   helpText(myEvent) {
     const helpText = ''
-    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Thông Tin', content: helpText});
+    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Hướng Dẫn', content: helpText});
     popover.present({
       ev: myEvent
     });

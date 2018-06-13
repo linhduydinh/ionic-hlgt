@@ -21,6 +21,32 @@
     background-color: #2ad2c9;
 }
 
+.login-button {
+    border-top: unset !important;
+    padding: 0 !important;
+    .item-inner {
+        background-image: none !important;
+        padding-right: 0 !important;
+        .label {
+            text-align: center;
+            margin: 0;
+            .icon {
+                font-size: 3em;
+            }
+        }
+    }
+}
+.isLogin {
+    margin: 5px auto 20px !important;
+    width: 80px !important;
+    background-color: #fff !important;
+    img {
+        border-radius: 50%;
+        height: 45px;
+        width: 45px;
+    }
+}
+
 @font-face {
     font-family: RobotoCondensed-Regular;
     src: url('../assets/fonts/RobotoCondensed-Regular.ttf');

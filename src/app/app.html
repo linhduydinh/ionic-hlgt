@@ -4,8 +4,15 @@
       <ion-title>Danh Mục</ion-title>
     </ion-toolbar>
   </ion-header>
-
   <ion-content>
+      <ion-buttons end>
+          <button *ngIf="isLoggedIn" class="isLogin" (click)="askLogout()" ion-button>
+              <img src="{{accountPhoto}}" />
+          </button>
+          <button menuClose *ngIf="!isLoggedIn" class="login-button" ion-item (click)="login()">
+              <ion-icon name="ios-contact-outline"></ion-icon>
+          </button>
+      </ion-buttons>
     <ion-list>
       <ion-card *ngFor="let p of pages">
         <button menuClose ion-item (click)="openPage(p)">
