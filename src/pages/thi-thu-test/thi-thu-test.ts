@@ -257,8 +257,12 @@ export class ThiThuTestPage {
       let popover = this.popoverCtrl.create(KetThucPage, {questionTestDto: questionTestDto}, {enableBackdropDismiss: false, cssClass: 'ket-thuc'});
       popover.present();
       this.storage.get('listBaiLam').then((data) => {
+        console.log(data);
         if (data) {
           this.listBaiLam = data;
+          questionTestDto.index = data.length + 1;
+        } else {
+          questionTestDto.index = 0;
         }
         this.listBaiLam.push(questionTestDto);
         this.storage.set('listBaiLam', this.listBaiLam);

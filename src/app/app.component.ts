@@ -10,6 +10,7 @@ import { MeoThiPage } from '../pages/meo-thi/meo-thi';
 import { Storage } from '@ionic/storage';
 import { FirestoreDataService } from './services/firebase.service';
 import * as firebase from 'firebase/app';
+import { QuestionTestDto } from '../models/questionTestDto';
 
 @Component({
   templateUrl: 'app.html'
@@ -33,6 +34,8 @@ export class MyApp {
       { title: 'Thi Thử', component: ThiThuPage, icon: 'imagethithu.png' },
       { title: 'Hướng Dẫn', component: MeoThiPage, icon: 'imagemeothi.png' }
     ];
+
+    this.storage.clear();
 
     this.authService.isLoggedIn().subscribe(user => {
       if(user !== null) {
@@ -88,21 +91,29 @@ export class MyApp {
   }
 
   uploadDataToServer(userDetails: firebase.User) {
-    this.storage.get('notCorrectQuestions').then(notCor => {
-      if (notCor) {
-        this.firebaseService.addFavoriteQuestions(userDetails.email, notCor);
-      }
-    });
-    this.storage.get('favoriteQuestions').then(favor => {
-      if (favor) {
-        this.firebaseService.addFavoriteQuestions(userDetails.email, favor);
-      }
-    });
-    this.storage.get('listBaiLam').then(listBaiLam => {
-      if (listBaiLam) {
-        this.firebaseService.addFavoriteQuestions(userDetails.email, listBaiLam);
-      }
-    });
+    let notCor: number[];
+    let favor: number[];
+    let listBaiLam: QuestionTestDto[];
+    console.log(this.storage.length);
+    if (this.storage != undefined) {
+      console.log(1);
+      this.storage.forEach((value, key, index) => {
+        console.log(key);
+        console.log(value);
+        console.log(index);
+        if (key == 'notCorrectQuestions') {
+          notCor = value;
+        }
+        if (key == 'favoriteQuestions') {
+          favor = value;
+        }
+        if (key == 'listBaiLam') {
+          listBaiLam = value;
+        }
+      }).then(data => {
+        this.firebaseService.saveDataUser(userDetails.email, notCor, favor, listBaiLam);
+      });
+    }
   }
 
 }

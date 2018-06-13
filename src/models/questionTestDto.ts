@@ -5,6 +5,7 @@ export class QuestionTestDto {
     numberCorrect: number;
     totalQuestion = 30;
     createDate: string;
+    index: number;
 
     constructor() {
         this.questions = new Array<Question>();

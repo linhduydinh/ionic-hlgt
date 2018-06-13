@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { Question } from '../../models/question';
+import { Question, Answer } from '../../models/question';
 import { QuestionTestDto } from '../../models/questionTestDto';
 
 @Injectable()
@@ -11,35 +11,66 @@ export class FirestoreDataService {
 
   questionsCollection: AngularFirestoreCollection<Question>;
   questions: Observable<Question[]>;
+  userDataCollection: AngularFirestoreCollection<any>;
+  userData: Observable<any[]>;
 
   constructor(public _afs: AngularFirestore) {
     this.questionsCollection = this._afs.collection('questions');
+    this.userDataCollection = this._afs.collection('userdatas');
+
     this.questions = this.questionsCollection.snapshotChanges().map(
-    changes => {
-      return changes.map(
-        a => {
-          const data = a.payload.doc.data() as Question;
-          return data;
+      changes => {
+        return changes.map(
+          a => {
+            const data = a.payload.doc.data() as Question;
+            return data;
         });
     });
+
+    this.userData = this.userDataCollection.snapshotChanges().map(
+      changes => {
+        return changes.map(
+          data => {
+            return data;
+        });
+    });
+
   }
 
   getQuestions() {
     return this.questions;
   }
 
-  addNotCorrectQuestions(userId: string, listQuestions: number[]) {
-    const questionsRef = this.questionsCollection.doc(`${userId}`);
-    questionsRef.set({notCorrectQuestions: listQuestions});
-  }
+  saveDataUser(userId: string, notCors: number[], favors: number[], listBaiLam: QuestionTestDto[]) {
+    const userDatasRef = this.userDataCollection.doc(`${userId}`);
+    if (listBaiLam != undefined) {
+      listBaiLam.forEach(element => {
+        let baiLam: any = [];
+        let listIds: string[] = [];
+        let anss: number[] = [];
+        element.questions.forEach(question => {
+          question.ans.forEach(ans => {
+            if (ans.click) {
+              anss.push(+ans.aId)
+            }
+          })
+          listIds.push(question.id);
+        });
+        userDatasRef.collection('listBaiLam').doc(`${element.index}`).set({createDate : element.createDate, 
+          numberCorrect : element.numberCorrect, totalQuestion : element.totalQuestion, ans: anss, qIds: listIds});
+      })
+    }
+    if (notCors != undefined && favors != undefined) {
+      userDatasRef.set({notCors: notCors, favors: favors})
+    } else {
+      if (notCors != undefined) {
+        userDatasRef.set({notCors: notCors})
+      }
+      if (favors != undefined) {
+        userDatasRef.set({favors: favors})
+      }
+    }
 
-  addFavoriteQuestions(userId: string, listQuestions: number[]) {
-    const questionsRef = this.questionsCollection.doc(`${userId}`);
-    questionsRef.set({favoriteQuestions: listQuestions});
-  }
-  addListBaiLam(userId: string, listBaiLam: QuestionTestDto[]) {
-    const questionsRef = this.questionsCollection.doc(`${userId}`);
-    questionsRef.set({listBaiLam: listBaiLam});
   }
 
   // getQuestionsByCategoryId(id: number) {
