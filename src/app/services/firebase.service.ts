@@ -27,25 +27,55 @@ export class FirestoreDataService {
         });
     });
 
-    this.userData = this.userDataCollection.snapshotChanges().map(
-      changes => {
-        return changes.map(
-          data => {
-            return data;
-        });
-    });
-
   }
 
   getQuestions() {
     return this.questions;
   }
 
-  saveDataUser(userId: string, notCors: number[], favors: number[], listBaiLam: QuestionTestDto[]) {
+  getUserData(userId: string) {
+    let data = this.userDataCollection.doc(`${userId}`).collection('notCorrectQuestions').valueChanges();
+    data.subscribe(res => {
+      console.log(res);
+    });
+  }
+
+  getFavoriteQuestions(userId: string): Observable<any> {
+    return this.userDataCollection.doc(`${userId}`).collection('favoriteQuestions').valueChanges();
+  }
+
+  getNotCorrectQuestions(userId: string): Observable<any> {
+    return this.userDataCollection.doc(`${userId}`).collection('notCorrectQuestions').valueChanges();
+  }
+
+  getListBaiLam(userId: string): Observable<any> {
+    return this.userDataCollection.doc(`${userId}`).collection('listBaiLam').valueChanges();
+  }
+
+  createFavoriteQuestions(userId: string, favors: number[]) {
+    const userDatasRef = this.userDataCollection.doc(`${userId}`);
+    userDatasRef.collection('favoriteQuestions').doc('favorite').set({favors: favors});
+  }
+
+  createNotCorrectQuestions(userId: string, notCors: number[]) {
+    const userDatasRef = this.userDataCollection.doc(`${userId}`);
+    userDatasRef.collection('notCorrectQuestions').doc('notCorrect').set({notCors: notCors});
+  }
+
+  updateFavoriteQuestions(userId: string, favors: number[]) {
+    const userDatasRef = this.userDataCollection.doc(`${userId}`);
+    userDatasRef.collection('favoriteQuestions').doc('favorite').update({favors: favors});
+  }
+
+  updateNotCorrectQuestions(userId: string, notCors: number[]) {
+    const userDatasRef = this.userDataCollection.doc(`${userId}`);
+    userDatasRef.collection('notCorrectQuestions').doc('notCorrect').update({notCors: notCors});
+  }
+
+  saveListBaiLam(userId: string, listBaiLam: QuestionTestDto[]) {
     const userDatasRef = this.userDataCollection.doc(`${userId}`);
     if (listBaiLam != undefined) {
       listBaiLam.forEach(element => {
-        let baiLam: any = [];
         let listIds: string[] = [];
         let anss: number[] = [];
         element.questions.forEach(question => {
@@ -59,16 +89,6 @@ export class FirestoreDataService {
         userDatasRef.collection('listBaiLam').doc(`${element.index}`).set({createDate : element.createDate, 
           numberCorrect : element.numberCorrect, totalQuestion : element.totalQuestion, ans: anss, qIds: listIds});
       })
-    }
-    if (notCors != undefined && favors != undefined) {
-      userDatasRef.set({notCors: notCors, favors: favors})
-    } else {
-      if (notCors != undefined) {
-        userDatasRef.set({notCors: notCors})
-      }
-      if (favors != undefined) {
-        userDatasRef.set({favors: favors})
-      }
     }
 
   }

@@ -21,8 +21,8 @@
                     <span class="questionId"><strong>Câu {{item.id}}</strong></span>. <span [innerHtml]="item.name"></span>
                 </ion-card-header>
 
-                <ion-card-content *ngIf="item.img">
-                        <img [src]="item.img" />
+                <ion-card-content *ngIf="item">
+                        <img *ngIf="item.img" [src]="item.img" />
                 </ion-card-content>
 
                 <ion-card-content class="{{asnwer.aId}}" *ngFor="let asnwer of item.ans; let i = index">

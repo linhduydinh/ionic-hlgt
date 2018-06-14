@@ -4,7 +4,7 @@ import { FirestoreDataService } from '../../app/services/firebase.service';
 import { Question } from '../../models/question';
 import { QuestionsPopupPage } from '../questions-popup/questions-popup';
 import { Storage } from '@ionic/storage';
-import {File, DirectoryEntry, FileEntry} from '@ionic-native/file';
+import { File } from '@ionic-native/file';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { ExplainPage } from '../explain/explain';
 
@@ -81,7 +81,7 @@ export class ListQuestionsPage {
           this.storage.get('favoriteQuestions').then(favor => {
             if (favor) {
               this.favoriteQuestions = favor;
-              favor.forEach(element => {
+              this.favoriteQuestions.forEach(element => {
                 let question = data.filter(x => x.id == String(element))[0];
                 if(question) {
                   question.isFa = true;
@@ -139,20 +139,6 @@ export class ListQuestionsPage {
         question.img = normalizeURL(entry.toURL());
       }, (error) => {
         console.log(error);
-      });
-    }
-  }
-
-  getImageInStorage(question: Question) {
-    if (question.img != undefined && question.img != null) {
-      this.file.resolveDirectoryUrl(this.file.dataDirectory)
-        .then((directoryEntry: DirectoryEntry) => {
-          this.file.getFile(directoryEntry, question.id + '.jpg', { create: false })
-            .then((fileEntry: FileEntry) => {
-              if (fileEntry != undefined && fileEntry != null) {
-                question.img = normalizeURL(fileEntry.nativeURL);
-              } 
-            });
       });
     }
   }
