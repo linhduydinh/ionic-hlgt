@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ModalController, PopoverController } from 'ionic-angular';
 import { ListQuestionsPage } from '../list-questions/list-questions';
 import { ExplainPage } from '../explain/explain';
+import { FirestoreDataService } from '../../app/services/firebase.service';
 
 @Component({
   selector: 'page-hoc-luat',
@@ -10,8 +11,10 @@ import { ExplainPage } from '../explain/explain';
 export class HocLuatPage {
 
   categories: Array<{id: number, name: string, icon: string}>;
+  helpTextContent: string;
 
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public popoverCtrl: PopoverController,
+              public firebaseService: FirestoreDataService) {
   
     this.categories = [
       { id: 1, name: 'Những Câu Hay Trả Lời Sai', icon: 'imagehaytraloisai.png' },
@@ -25,6 +28,10 @@ export class HocLuatPage {
       { id: 9, name: 'Sa Hình', icon: 'imagesahinh.png' },
       { id: 10, name: 'Tất Cả 450 Câu Hỏi', icon: 'imagetatcacauhoi.png' }
     ];
+
+    this.firebaseService.getHocLuatHelpText().subscribe(res => {
+      this.helpTextContent = res.text;
+    })
   
   }
 
@@ -36,8 +43,7 @@ export class HocLuatPage {
   }
 
   helpText(myEvent) {
-    const helpText = ''
-    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Thông Tin', content: helpText});
+    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Thông Tin', content: this.helpTextContent});
     popover.present({
       ev: myEvent
     });

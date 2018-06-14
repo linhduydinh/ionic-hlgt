@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { XemLaiPage } from '../xem-lai/xem-lai';
 import { QuestionTestDto } from '../../models/questionTestDto';
 import { ExplainPage } from '../explain/explain';
+import { FirestoreDataService } from '../../app/services/firebase.service';
 
 @Component({
   selector: 'page-thi-thu',
@@ -16,9 +17,10 @@ export class ThiThuPage {
   passTest: Array<QuestionTestDto> = [];
   failTest: Array<QuestionTestDto> = [];
   selectedSegment = 'all';
+  helpTextContent: string;
   
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, 
-              public popoverCtrl: PopoverController) {
+              public popoverCtrl: PopoverController, public firebaseService: FirestoreDataService) {
     this.storage.get('listBaiLam').then((data) => {
       if (data) {
         this.listBaiLam = data;
@@ -33,6 +35,10 @@ export class ThiThuPage {
 
       }
     });
+
+    this.firebaseService.getThiThuHelpText().subscribe(res => {
+      this.helpTextContent = res.text;
+    })
   }
 
   ionViewDidLoad() {
@@ -40,8 +46,7 @@ export class ThiThuPage {
   }
 
   helpText(myEvent) {
-    const helpText = ''
-    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Thông Tin', content: helpText});
+    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Thông Tin', content: this.helpTextContent});
     popover.present({
       ev: myEvent
     });

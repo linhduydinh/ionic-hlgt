@@ -17,8 +17,6 @@ export class AuthService {
           if (user) {
             this.userDetails = user;
             this.imageUrl = user.photoURL;
-            console.log(this.imageUrl);
-            console.log(this.userDetails);
           }
           else {
             this.userDetails = null;
@@ -31,7 +29,6 @@ export class AuthService {
         return this._firebaseAuth.auth.signInWithPopup(
           new firebase.auth.FacebookAuthProvider()
         ).then(function(result){
-            console.log(result);
         });
     }
 
@@ -39,7 +36,6 @@ export class AuthService {
         return this._firebaseAuth.auth.signInWithPopup(
           new firebase.auth.GoogleAuthProvider()
         ).then(function(result){
-            console.log(result);
         });
     }
 
@@ -62,7 +58,6 @@ export class AuthService {
     logout() {
         this._firebaseAuth.auth.signOut()
         .then((res) => {
-            console.log(res);
         });
     }
 

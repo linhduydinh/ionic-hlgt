@@ -21,7 +21,7 @@ export class ExplainPage {
 
     this.title = this.navParams.get('title');
     this.content = this.navParams.get('content');
-
+    console.log(this.content);
   }
 
   ionViewDidLoad() {

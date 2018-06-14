@@ -12,11 +12,12 @@ export class FirestoreDataService {
   questionsCollection: AngularFirestoreCollection<Question>;
   questions: Observable<Question[]>;
   userDataCollection: AngularFirestoreCollection<any>;
-  userData: Observable<any[]>;
+  huongDanCollection: AngularFirestoreCollection<any>;
 
   constructor(public _afs: AngularFirestore) {
     this.questionsCollection = this._afs.collection('questions');
     this.userDataCollection = this._afs.collection('userdatas');
+    this.huongDanCollection = this._afs.collection('huongdan');
 
     this.questions = this.questionsCollection.snapshotChanges().map(
       changes => {
@@ -33,11 +34,12 @@ export class FirestoreDataService {
     return this.questions;
   }
 
-  getUserData(userId: string) {
-    let data = this.userDataCollection.doc(`${userId}`).collection('notCorrectQuestions').valueChanges();
-    data.subscribe(res => {
-      console.log(res);
-    });
+  getHocLuatHelpText(): Observable<any> {
+    return this.huongDanCollection.doc(`hocluathelp`).valueChanges();
+  }
+
+  getThiThuHelpText(): Observable<any> {
+    return this.huongDanCollection.doc(`thithuhelp`).valueChanges();
   }
 
   getFavoriteQuestions(userId: string): Observable<any> {
@@ -72,7 +74,7 @@ export class FirestoreDataService {
     userDatasRef.collection('notCorrectQuestions').doc('notCorrect').update({notCors: notCors});
   }
 
-  saveListBaiLam(userId: string, listBaiLam: QuestionTestDto[]) {
+  createListBaiLam(userId: string, listBaiLam: QuestionTestDto[]) {
     const userDatasRef = this.userDataCollection.doc(`${userId}`);
     if (listBaiLam != undefined) {
       listBaiLam.forEach(element => {
@@ -87,6 +89,26 @@ export class FirestoreDataService {
           listIds.push(question.id);
         });
         userDatasRef.collection('listBaiLam').doc(`${element.index}`).set({createDate : element.createDate, 
+          numberCorrect : element.numberCorrect, totalQuestion : element.totalQuestion, ans: anss, qIds: listIds});
+      })
+    }
+  }
+
+  updateListBaiLam(userId: string, listBaiLam: QuestionTestDto[]) {
+    const userDatasRef = this.userDataCollection.doc(`${userId}`);
+    if (listBaiLam != undefined) {
+      listBaiLam.forEach(element => {
+        let listIds: string[] = [];
+        let anss: number[] = [];
+        element.questions.forEach(question => {
+          question.ans.forEach(ans => {
+            if (ans.click) {
+              anss.push(+ans.aId)
+            }
+          })
+          listIds.push(question.id);
+        });
+        userDatasRef.collection('listBaiLam').doc(`${element.index}`).update({createDate : element.createDate, 
           numberCorrect : element.numberCorrect, totalQuestion : element.totalQuestion, ans: anss, qIds: listIds});
       })
     }

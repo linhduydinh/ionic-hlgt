@@ -1,8 +1,18 @@
 .popover-content {
     width: 300px !important;
 }
+page-explain {
+    .scroll-content {
+        margin-top: 5px !important;
+    }
+}
+
 .label {
     white-space: unset;
     font-size: 1.7rem;
+    text-align: left;
+    p {
+        text-align: left;
+    }
 }
 

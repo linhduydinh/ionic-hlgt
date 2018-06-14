@@ -94,7 +94,11 @@ export class ListQuestionsPage {
           });
 
         } else {
-          this.listQuestions = data.filter(x => x.cId == String(this.category.id));
+          if (this.category.id == 10) {
+            this.listQuestions = data;
+          } else {
+            this.listQuestions = data.filter(x => x.cId == String(this.category.id));
+          }
           this.storage.get('notCorrectQuestions').then(notCor => {
             if (notCor) {
               this.notCorrectQuestions = notCor;
@@ -111,6 +115,9 @@ export class ListQuestionsPage {
             }
           });
         }
+        this.listQuestions = this.listQuestions.sort(function(a, b) {
+          return +a.id - +b.id;
+        });
       } else {
         this.firestoreService.getQuestions().subscribe(res => {
           if (res) {
@@ -118,10 +125,17 @@ export class ListQuestionsPage {
               this.saveImageToStorage(element);
             })
             this.storage.set('questions', res);
-            this.listQuestions = res.filter(x => x.cId == String(this.category.id));
+            if (this.category.id == 10) {
+              this.listQuestions = data;
+            } else {
+              this.listQuestions = data.filter(x => x.cId == String(this.category.id));
+            }
             if (this.listQuestions.length == 0) {
               this.showEmpty = true;
             }
+            this.listQuestions = this.listQuestions.sort(function(a, b) {
+              return +a.id - +b.id;
+            });
           }
         });
       }
