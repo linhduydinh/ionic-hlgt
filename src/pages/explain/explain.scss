@@ -1,6 +1,11 @@
 .popover-content {
     width: 300px !important;
 }
+.notCorrect {
+    .toolbar-background {
+        background-color: #e55232 !important;
+    }
+}
 page-explain {
     .scroll-content {
         margin-top: 5px !important;

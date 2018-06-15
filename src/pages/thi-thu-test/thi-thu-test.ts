@@ -144,7 +144,7 @@ export class ThiThuTestPage {
 
   getQuestionIdsForTest() {
     if(this.questionTestDto == undefined || this.questionTestDto == null) {
-      for (var i = 1; i <= 2; i++) {
+      for (var i = 1; i <= 30; i++) {
         if (i <= 9) {
           this.listQuestionIds.push(this.randomIntFromInterval(1, 145));
         } else if (i == 10) {

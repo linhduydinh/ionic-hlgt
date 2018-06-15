@@ -25,6 +25,7 @@ export class ListQuestionsPage {
   favoriteQuestions: number[] = [];
   notCorrectQuestions: any[] = [];
   showEmpty = false;
+  isQuestionCorrect: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController,
               private firestoreService: FirestoreDataService, public modalCtrl: ModalController, private transfer: FileTransfer,
@@ -39,7 +40,7 @@ export class ListQuestionsPage {
     });
     loader.present();
 
-    // this.storage.clear();
+    this.storage.clear();
 
     this.storage.get('questions').then((data) => {
       if (data) {
@@ -126,9 +127,9 @@ export class ListQuestionsPage {
             })
             this.storage.set('questions', res);
             if (this.category.id == 10) {
-              this.listQuestions = data;
+              this.listQuestions = res;
             } else {
-              this.listQuestions = data.filter(x => x.cId == String(this.category.id));
+              this.listQuestions = res.filter(x => x.cId == String(this.category.id));
             }
             if (this.listQuestions.length == 0) {
               this.showEmpty = true;
@@ -190,12 +191,12 @@ export class ListQuestionsPage {
     if (!questionCom.completed) {
       let currentIndex = this.slides.getActiveIndex();
       const slide = this.slides._slides[currentIndex];
-      let isCorrect = true;
+      this.isQuestionCorrect = true;
       questionCom.isCor = true;
       questionCom.ans.forEach(element => {
         if (element.isCor) {
           if (!element.click) {
-            isCorrect = false;
+            this.isQuestionCorrect = false;
             questionCom.isCor = false;
           }
           let answer = slide.getElementsByClassName(String(element.aId))[0];
@@ -203,7 +204,7 @@ export class ListQuestionsPage {
         }
       });
       slide.getElementsByClassName('ion-md-checkmark')[0].className += ' disabled';
-      if (!isCorrect) {
+      if (!this.isQuestionCorrect) {
         this.notCorrectQuestions.push(questionCom.id);
         this.storage.set('notCorrectQuestions', this.notCorrectQuestions);
       }
@@ -231,7 +232,13 @@ export class ListQuestionsPage {
   }
 
   presentPopover(myEvent, question: Question) {
-    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Giải Thích', content: question.expl});
+    let cssClass = '';
+    if (this.isQuestionCorrect) {
+      cssClass = 'isCorrect';
+    } else {
+      cssClass = 'notCorrect';
+    };
+    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Giải Thích', content: question.expl}, {cssClass: cssClass});
     popover.present({
       ev: myEvent
     });

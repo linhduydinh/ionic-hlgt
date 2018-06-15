@@ -31,7 +31,6 @@ export class MyApp {
       //{ title: 'Hướng Dẫn', component: MeoThiPage, icon: 'imagemeothi.png' }
     ];
 
-    // this.storage.clear();
     this.authService.isLoggedIn().subscribe(user => {
       if(user !== null) {
         this.isLoggedIn = true;

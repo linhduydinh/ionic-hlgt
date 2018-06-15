@@ -12,7 +12,7 @@
         <ion-label class="empty">Mục này chưa có dữ liệu, vui lòng quay trở lại sau.</ion-label>
     </ion-item>
 
-    <ion-slides *ngIf="listQuestions.length > 0" #slides pager paginationType="fraction">
+    <ion-slides *ngIf="listQuestions.length > 0" #slides pager paginationType="progress">
 
         <ion-slide *ngFor="let item of listQuestions; let first = first; let last = last">
 
@@ -32,7 +32,7 @@
                 </ion-card-content>
             </ion-card>
 
-            <ion-card *ngIf="item.completed" class="explain">
+            <ion-card *ngIf="item.completed" class="explain" [ngClass]="isQuestionCorrect ? 'isCorrect' : 'notCorrect' ">
                 <ion-icon (click)="presentPopover($event, item)" name="ios-information-circle-outline"></ion-icon>
             </ion-card>
 
