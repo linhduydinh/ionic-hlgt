@@ -43,7 +43,7 @@ export class HocLuatPage {
   }
 
   helpText(myEvent) {
-    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Thông Tin', content: this.helpTextContent});
+    let popover = this.popoverCtrl.create(ExplainPage, {title: 'Thông Tin', content: this.helpTextContent}, {cssClass: 'hocluat'});
     popover.present({
       ev: myEvent
     });

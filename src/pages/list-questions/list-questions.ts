@@ -40,7 +40,7 @@ export class ListQuestionsPage {
     });
     loader.present();
 
-    this.storage.clear();
+    // this.storage.clear();
 
     this.storage.get('questions').then((data) => {
       if (data) {
