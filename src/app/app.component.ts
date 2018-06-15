@@ -28,7 +28,7 @@ export class MyApp {
     this.pages = [
       { title: 'Học Luật', component: HocLuatPage, icon: 'imagehocluat.png' },
       { title: 'Thi Thử', component: ThiThuPage, icon: 'imagethithu.png' },
-      { title: 'Hướng Dẫn', component: MeoThiPage, icon: 'imagemeothi.png' }
+      //{ title: 'Hướng Dẫn', component: MeoThiPage, icon: 'imagemeothi.png' }
     ];
 
     // this.storage.clear();
