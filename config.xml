@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="ly.thuyet.lai.xe" version="1.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="hoc.luat.giao.thong" version="1.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Học Luật Giao Thông</name>
     <description>450 câu hỏi học luật giao thông.</description>
     <author email="linhduydinh@gmail.com" href="http://devfull.com/">Linh Dinh</author>

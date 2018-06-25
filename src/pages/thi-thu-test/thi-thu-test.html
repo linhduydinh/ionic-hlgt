@@ -27,6 +27,9 @@
                   <ion-card-header>
                       Câu <span class="questionId">{{i + 1}}</span>. {{item.name}}
                   </ion-card-header>
+                  <ion-card-content *ngIf="item">
+                    <img *ngIf="item.img" [src]="item.img" />
+                    </ion-card-content>
                   <ion-card-content *ngFor="let asnwer of item.ans; let i = index">
                       <ion-item (click)="clickAnswer(asnwer, answerClick = !answerClick)">
                           <span class="circle {{asnwer.aId}}" item-left>{{i + 1}}</span> {{asnwer.aName}}
