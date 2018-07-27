@@ -1,12 +1,17 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, AlertController } from 'ionic-angular';
+import { Nav, Platform, AlertController, normalizeURL } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ThiThuPage } from '../pages/thi-thu/thi-thu';
 import { HocLuatPage } from '../pages/hoc-luat/hoc-luat';
 import { LoginPage } from '../pages/login/login';
 import { AuthService } from './services/auth-service';
-import { MeoThiPage } from '../pages/meo-thi/meo-thi';
+import { FirestoreDataService } from './services/firebase.service';
+import { Storage } from '@ionic/storage';
+import { Question } from '../models/question';
+import { FileTransferObject, FileTransfer } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+// import { MeoThiPage } from '../pages/meo-thi/meo-thi';
 
 
 @Component({
@@ -21,7 +26,9 @@ export class MyApp {
   pages: Array<{title: string, component: any, icon: string}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-              public authService: AuthService, public alertCtrl: AlertController) {
+              public authService: AuthService, public alertCtrl: AlertController,
+            private firestoreService: FirestoreDataService, private storage: Storage,
+            private transfer: FileTransfer, private file: File) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -47,11 +54,30 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      this.firestoreService.getQuestions().subscribe(res => {
+        if (res) {
+          res.forEach(element => {
+            this.saveImageToStorage(element);
+          })
+          this.storage.set('questions', res);
+        }
+      });
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
 
     });
+  }
+
+  saveImageToStorage(question: Question) {
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    if (question.img != undefined && question.img != null) {
+      fileTransfer.download(question.img, this.file.dataDirectory +'/'+ + question.id + '.jpg').then((entry) => {
+        question.img = normalizeURL(entry.toURL());
+      }, (error) => {
+        console.log(error);
+      });
+    }
   }
 
 

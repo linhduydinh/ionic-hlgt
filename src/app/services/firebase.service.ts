@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { Question, Answer } from '../../models/question';
+import { Question } from '../../models/question';
 import { QuestionTestDto } from '../../models/questionTestDto';
 
 @Injectable()
