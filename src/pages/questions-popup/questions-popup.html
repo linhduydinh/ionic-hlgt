@@ -16,8 +16,8 @@
 <ion-content padding class="question-popup">
     <p *ngIf="isFinish">Vui lòng trả lời tất cả câu hỏi chưa hoàn thành để kết thúc.</p>
     <button class="large-circle" [ngClass]="(item.isCor)? 'isCorrect' : ( item.isCor == false ? 'notCorrect' : 'notAnswer') " (click)="chooseQuestionPopup(item, i)" *ngFor="let item of listQuestions; let i = index">
-        <span *ngIf="isTest">{{i + 1}}</span>
-        <span *ngIf="!isTest">{{item.id}}</span>
+        <span *ngIf="isTest || isFinish">{{i + 1}}</span>
+        <span *ngIf="!isTest && !isFinish">{{item.id}}</span>
     </button>
 
 
