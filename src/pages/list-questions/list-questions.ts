@@ -205,6 +205,9 @@ export class ListQuestionsPage {
       });
       slide.getElementsByClassName('ion-md-checkmark')[0].className += ' disabled';
       if (!this.isQuestionCorrect) {
+        if (this.notCorrectQuestions['notCors'] === null) {
+          this.notCorrectQuestions = [];
+        }
         this.notCorrectQuestions.push(questionCom.id);
         this.storage.set('notCorrectQuestions', this.notCorrectQuestions);
       }

@@ -33,7 +33,7 @@
             </ion-card>
 
             <ion-card *ngIf="item.completed" class="explain" [ngClass]="isQuestionCorrect ? 'isCorrect' : 'notCorrect' ">
-                <ion-icon (click)="presentPopover($event, item)" name="ios-information-circle-outline"></ion-icon>
+                <ion-icon (click)="presentPopover($event, item)" name="ios-information-circle"></ion-icon>
             </ion-card>
 
             <ion-footer>

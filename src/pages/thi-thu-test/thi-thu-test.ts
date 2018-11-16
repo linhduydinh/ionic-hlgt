@@ -273,7 +273,7 @@ export class ThiThuTestPage {
         if(item != undefined) {
           this.slides.slideTo(item.item.index);
         }
-      });
+      }); 
       modal.present();
     }
   }
