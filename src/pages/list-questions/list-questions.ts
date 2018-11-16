@@ -123,7 +123,10 @@ export class ListQuestionsPage {
         this.firestoreService.getQuestions().subscribe(res => {
           if (res) {
             res.forEach(element => {
-              this.saveImageToStorage(element);
+              // this.saveImageToStorage(element);
+              if (+element.id > 255) {
+                element.img = 'assets/imgs/hinh/Cau_' + element.id + '.jpg';
+              }
             })
             this.storage.set('questions', res);
             if (this.category.id == 10) {
@@ -147,16 +150,16 @@ export class ListQuestionsPage {
   ionViewDidLoad() {
   }
 
-  saveImageToStorage(question: Question) {
-    const fileTransfer: FileTransferObject = this.transfer.create();
-    if (question.img != undefined && question.img != null) {
-      fileTransfer.download(question.img, this.file.dataDirectory +'/'+ + question.id + '.jpg').then((entry) => {
-        question.img = normalizeURL(entry.toURL());
-      }, (error) => {
-        console.log(error);
-      });
-    }
-  }
+  // saveImageToStorage(question: Question) {
+  //   const fileTransfer: FileTransferObject = this.transfer.create();
+  //   if (question.img != undefined && question.img != null) {
+  //     fileTransfer.download(question.img, this.file.dataDirectory +'/'+ + question.id + '.jpg').then((entry) => {
+  //       question.img = normalizeURL(entry.toURL());
+  //     }, (error) => {
+  //       console.log(error);
+  //     });
+  //   }
+  // }
 
   clickAnswer(answer: any, answerClick: boolean, isCompleted: boolean) {
     if (!isCompleted) {

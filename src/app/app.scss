@@ -20,7 +20,14 @@
 .toolbar-background {
     background-color: #2ad2c9;
 }
-
+.header {
+    .toolbar {
+        height: 60px;
+    }
+}
+.content {
+    padding-top: 16px;
+}
 .login-button {
     border-top: unset !important;
     padding: 0 !important;
