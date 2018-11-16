@@ -235,11 +235,11 @@ export class ListQuestionsPage {
   }
 
   presentPopover(myEvent, question: Question) {
-    let cssClass = '';
+    let cssClass = 'popover-bottom-right';
     if (this.isQuestionCorrect) {
-      cssClass = 'isCorrect';
+      cssClass += ' isCorrect';
     } else {
-      cssClass = 'notCorrect';
+      cssClass += ' notCorrect';
     };
     let popover = this.popoverCtrl.create(ExplainPage, {title: 'Giải Thích', content: question.expl}, {cssClass: cssClass});
     popover.present({

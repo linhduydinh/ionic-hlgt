@@ -6,6 +6,12 @@
 ion-slide{
     overflow: auto;
 }
+.popover-bottom-right {
+    width: 80%;
+  top: 70px;
+  left: 30px;
+  bottom: 70px
+}
 .ion-page {
     .scroll-content {
         padding: 0 !important; 
